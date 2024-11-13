@@ -1,9 +1,14 @@
 <script setup>
+import { Button } from '~/components/ui/button';
+
 const slug = 'Here is some text!';
 </script>
 
 <template>
-  <span>
-    {{ slug }}
-  </span>
+  <div>
+    <span>
+      {{ slug }}
+    </span>
+    <Button href="/test" as="a">Go to test</Button>
+  </div>
 </template>

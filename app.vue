@@ -1,5 +1,5 @@
 <template>
-  <div class="h-lvh bg-red-300">
+  <div>
     <NuxtRouteAnnouncer />
     <NuxtPage />
   </div>
@@ -7,9 +7,7 @@
 
 <style>
 body {
-  font-family:
-    Public Sans,
-    Noto Sans,
-    sans-serif;
+  font-family: 'Public Sans', 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji', sans-serif;
 }
 </style>

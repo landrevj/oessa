@@ -10,5 +10,8 @@ in pkgs.mkShell {
 
   shellHook = ''
     export PATH="$PWD/node_modules/.bin/:$PATH"
+
+    alias nuxi="pnpm dlx nuxi@latest"
+    alias shadcn-vue="pnpm dlx shadcn-vue@latest"
   '';
 }

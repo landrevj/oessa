@@ -1,7 +1,10 @@
-<script setup>
-const slug = 'test';
+<script setup lang="ts">
+const text = defineModel<string>('asdfasdf');
 </script>
 
 <template>
-  <span>{{ slug }}</span>
+  <div>
+    <Textarea v-model="text" />
+    <p class="whitespace-pre-wrap">{{ text }}</p>
+  </div>
 </template>
