@@ -4,9 +4,8 @@ let
   nodejs = pkgs.nodejs_22;
 in pkgs.mkShell {
   packages = with pkgs; [
+    (corepack.override { nodejs = nodejs; })
     nodejs
-    nodePackages.npm
-    (yarn.override { nodejs = nodejs; })
   ];
 
   shellHook = ''
