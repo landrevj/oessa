@@ -1,12 +1,15 @@
 <template>
-  <div>
+  <div class="h-lvh bg-red-300">
     <NuxtRouteAnnouncer />
-    <NuxtPage/>
+    <NuxtPage />
   </div>
 </template>
 
 <style>
-  body {
-    font-family: Public Sans, Noto Sans, sans-serif;
-  }
+body {
+  font-family:
+    Public Sans,
+    Noto Sans,
+    sans-serif;
+}
 </style>

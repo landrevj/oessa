@@ -1,7 +1,9 @@
 <script setup>
-  let slug = "Here is some text!";
+const slug = 'Here is some text!';
 </script>
 
 <template>
-  {{ slug }}
+  <span>
+    {{ slug }}
+  </span>
 </template>

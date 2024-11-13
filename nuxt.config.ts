@@ -6,9 +6,7 @@ export default defineNuxtConfig({
   components: {
     dirs: [],
   },
-  modules: [
-    '@nuxt/fonts',
-  ],
+  modules: ['@nuxt/eslint', '@nuxt/fonts', '@nuxtjs/tailwindcss'],
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
-})
+});

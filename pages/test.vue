@@ -1,7 +1,7 @@
 <script setup>
-  let slug = "test";
+const slug = 'test';
 </script>
 
 <template>
-  {{ slug }}
+  <span>{{ slug }}</span>
 </template>
