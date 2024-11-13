@@ -6,6 +6,9 @@ export default defineNuxtConfig({
   components: {
     dirs: [],
   },
+  modules: [
+    '@nuxt/fonts',
+  ],
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
 })
