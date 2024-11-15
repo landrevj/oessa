@@ -9,19 +9,25 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
     '@nuxt/fonts',
-    '@nuxtjs/tailwindcss',
     '@nuxtjs/color-mode',
+    '@nuxtjs/i18n',
+    '@nuxtjs/tailwindcss',
     'shadcn-nuxt',
   ],
+  i18n: {
+    // baseUrl: 'https://'
+    vueI18n: './i18n/config.ts',
+    strategy: 'prefix_except_default',
+    defaultLocale: 'en',
+    locales: [
+      {
+        code: 'en',
+        language: 'en-US',
+      },
+    ],
+  },
   shadcn: {
-    /**
-     * Prefix for all the imported component
-     */
     prefix: '',
-    /**
-     * Directory that the component lives in.
-     * @default "./components/ui"
-     */
     componentDir: './components/ui',
   },
   compatibilityDate: '2024-04-03',

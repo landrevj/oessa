@@ -1,8 +1,10 @@
+<script setup lang="ts"></script>
+
 <template>
-  <div>
+  <NuxtLayout>
     <NuxtRouteAnnouncer />
     <NuxtPage />
-  </div>
+  </NuxtLayout>
 </template>
 
 <style>
