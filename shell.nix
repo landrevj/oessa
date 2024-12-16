@@ -14,6 +14,6 @@ pkgs.mkShell {
 
     alias better-auth="pnpm dlx @better-auth/cli"
     alias nuxi="pnpm dlx nuxi@latest"
-    alias shadcn-vue="pnpm dlx shadcn-vue@latest"
+    alias shadcn="pnpm dlx shadcn-vue@latest"
   '';
 }
