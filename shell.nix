@@ -1,8 +1,9 @@
-{ pkgs ? import <nixpkgs> {} }:
+{ pkgs ? import <nixpkgs> { } }:
 
 let
   nodejs = pkgs.nodejs_22;
-in pkgs.mkShell {
+in
+pkgs.mkShell {
   packages = with pkgs; [
     (corepack.override { nodejs = nodejs; })
     nodejs
@@ -11,6 +12,7 @@ in pkgs.mkShell {
   shellHook = ''
     export PATH="$PWD/node_modules/.bin/:$PATH"
 
+    alias better-auth="pnpm dlx @better-auth/cli"
     alias nuxi="pnpm dlx nuxi@latest"
     alias shadcn-vue="pnpm dlx shadcn-vue@latest"
   '';

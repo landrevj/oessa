@@ -1,28 +1,19 @@
 <script setup lang="ts">
-import { useQuery } from '@tanstack/vue-query';
-import { computed } from 'vue';
 import { Button } from '~/components/ui/button';
-import { fetchTodos } from '~/queries/test/test.queries';
-import { getTodoStrings } from '~/queries/test/test.selectors';
+import { authClient } from '~/lib/authClient';
 
-const { isFetching, status, data, error, refetch } = useQuery(fetchTodos());
-const todoStrings = computed(() => getTodoStrings(data.value || []));
+const session = authClient.useSession();
+console.log(session);
 </script>
 
 <template>
   <div>
-    <span>
-      {{ $t('one.two') }}
-    </span>
     <Button href="/test" as="a">Go to test</Button>
-    <Button @click="refetch">refetch</Button>
-    <div v-if="status === 'error'">
-      {{ error }}
-    </div>
-    <div v-else>
-      {{ isFetching }}
-      {{ status }}
-      <p v-for="todoStr in todoStrings" :key="todoStr">{{ todoStr }}</p>
+    <Button v-if="!session?.data" href="/login" as="a">login</Button>
+    <Button v-else @click="authClient.signOut()">logout</Button>
+
+    <div>
+      {{ session?.data?.user.name }}
     </div>
   </div>
 </template>
