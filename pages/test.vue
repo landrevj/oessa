@@ -15,9 +15,6 @@ const text = defineModel<string>('text');
     <Textarea v-model="text" placeholder="placeholder ;)" />
     <p class="whitespace-pre-wrap">{{ text }}</p>
     <div>
-      <span>
-        {{ $t('one.two') }}
-      </span>
       <Button @click="refetch">refetch</Button>
       <div v-if="status === 'error'">
         {{ error }}

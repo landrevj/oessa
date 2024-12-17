@@ -1,9 +1,12 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { Toaster } from './components/ui/sonner';
+</script>
 
 <template>
   <NuxtLayout>
     <NuxtRouteAnnouncer />
     <NuxtPage />
+    <Toaster class="pointer-events-auto" rich-colors position="bottom-center" />
   </NuxtLayout>
 </template>
 
