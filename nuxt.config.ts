@@ -29,6 +29,16 @@ export default defineNuxtConfig({
     ],
     '@nuxtjs/tailwindcss',
     ['@vee-validate/nuxt', { autoImports: false }],
+    [
+      'nuxt-security',
+      {
+        headers: {
+          contentSecurityPolicy: {
+            'img-src': ['self', 'data:', 'https://lh3.googleusercontent.com/'],
+          },
+        },
+      },
+    ],
     ['shadcn-nuxt', { prefix: '', componentDir: './components/ui' }],
     'unplugin-icons/nuxt',
   ],

@@ -26,6 +26,7 @@
     "clsx": "^2.1.1",
     "kysely": "^0.27.5",
     "nuxt": "^3.14.159",
+    "nuxt-security": "2.1.5",
     "pg": "^8.13.1",
     "radix-vue": "^1.9.9",
     "tailwind-merge": "^2.5.4",
