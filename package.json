@@ -10,7 +10,7 @@
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
     "format": "prettier --write \"{components,pages,plugins,middleware,layouts,composables,assets,queries,store}/**/*.{js,jsx,ts,tsx,vue,html,css,scss,json,md}\"",
-    "generate:kysely": "kysely-codegen --out-file=./db/types.d.ts",
+    "generate:kysely": "kysely-codegen --camel-case --out-file=./db/types.d.ts",
     "generate:better-auth": "pnpm dlx @better-auth/cli generate"
   },
   "dependencies": {

@@ -5,6 +5,11 @@
 
 import type { ColumnType } from 'kysely';
 
+export type Generated<T> =
+  T extends ColumnType<infer S, infer I, infer U>
+    ? ColumnType<S, I | undefined, U>
+    : ColumnType<T, T | undefined, T>;
+
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
 export interface Account {
@@ -12,7 +17,7 @@ export interface Account {
   accessTokenExpiresAt: Timestamp | null;
   accountId: string;
   createdAt: Timestamp;
-  id: string;
+  id: Generated<string>;
   idToken: string | null;
   password: string | null;
   providerId: string;
@@ -23,10 +28,25 @@ export interface Account {
   userId: string;
 }
 
+export interface Group {
+  createdAt: Generated<Timestamp>;
+  id: Generated<string>;
+  image: string | null;
+  name: string;
+  updatedAt: Generated<Timestamp>;
+}
+
+export interface GroupUser {
+  createdAt: Generated<Timestamp>;
+  groupId: string;
+  updatedAt: Generated<Timestamp>;
+  userId: string;
+}
+
 export interface Session {
   createdAt: Timestamp;
   expiresAt: Timestamp;
-  id: string;
+  id: Generated<string>;
   ipAddress: string | null;
   token: string;
   updatedAt: Timestamp;
@@ -38,7 +58,7 @@ export interface User {
   createdAt: Timestamp;
   email: string;
   emailVerified: boolean;
-  id: string;
+  id: Generated<string>;
   image: string | null;
   name: string;
   updatedAt: Timestamp;
@@ -47,7 +67,7 @@ export interface User {
 export interface Verification {
   createdAt: Timestamp | null;
   expiresAt: Timestamp;
-  id: string;
+  id: Generated<string>;
   identifier: string;
   updatedAt: Timestamp | null;
   value: string;
@@ -55,6 +75,8 @@ export interface Verification {
 
 export interface DB {
   account: Account;
+  group: Group;
+  groupUser: GroupUser;
   session: Session;
   user: User;
   verification: Verification;
