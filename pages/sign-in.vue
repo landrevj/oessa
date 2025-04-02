@@ -46,8 +46,8 @@ const onSubmit = form.handleSubmit(({ email, password, rememberMe }) =>
     callbackURL: '/',
     fetchOptions: {
       onError: (ctx) => {
-        toast.error(t('auth.error.login'), {
-          description: ctx.error.message || t('auth.error.loginFailure'),
+        toast.error(t('auth.error.signIn'), {
+          description: ctx.error.message || t('auth.error.signInFailure'),
           dismissible: true,
         });
       },
@@ -60,7 +60,7 @@ const onSubmit = form.handleSubmit(({ email, password, rememberMe }) =>
   <div class="w-screen h-screen flex justify-center">
     <Card class="w-full md:w-[500px] border-none shadow-none my-auto">
       <CardHeader>
-        <CardTitle>{{ $t('auth.login') }}</CardTitle>
+        <CardTitle>{{ $t('auth.signIn') }}</CardTitle>
       </CardHeader>
       <CardContent>
         <div class="flex flex-col gap-2">
@@ -101,7 +101,7 @@ const onSubmit = form.handleSubmit(({ email, password, rememberMe }) =>
               </FormItem>
             </FormField>
             <Button type="submit">
-              {{ $t('auth.login') }}
+              {{ $t('auth.signIn') }}
             </Button>
           </form>
           <Separator :label="$t('common.or')" class="my-4" />

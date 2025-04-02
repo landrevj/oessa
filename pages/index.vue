@@ -10,14 +10,14 @@ const session = authClient.useSession();
 <template>
   <div>
     <Button href="/test" as="a">Go to test</Button>
-    <Button v-if="!session?.data" href="/login" as="a">
-      {{ $t('auth.login') }}
+    <Button v-if="!session?.data" href="/sign-in" as="a">
+      {{ $t('auth.signIn') }}
     </Button>
     <Button v-if="!session?.data" href="/sign-up" as="a">
-      {{ $t('auth.signup') }}
+      {{ $t('auth.signUp') }}
     </Button>
     <Button v-else @click="authClient.signOut()">
-      {{ $t('auth.logout') }}
+      {{ $t('auth.signOut') }}
     </Button>
     <div v-if="session?.data" class="container">
       <Card class="flex items-center gap-2 p-2">

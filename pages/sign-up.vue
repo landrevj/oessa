@@ -58,8 +58,8 @@ const onSubmit = form.handleSubmit(({ email, name, password }) =>
         navigateTo('/');
       },
       onError: (ctx) => {
-        toast.error(t('auth.error.signup'), {
-          description: ctx.error.message || t('auth.error.signupFailure'),
+        toast.error(t('auth.error.signUp'), {
+          description: ctx.error.message || t('auth.error.signUpFailure'),
           dismissible: true,
         });
       },
@@ -72,7 +72,7 @@ const onSubmit = form.handleSubmit(({ email, name, password }) =>
   <div class="w-screen h-screen flex justify-center">
     <Card class="w-full md:w-[500px] border-none shadow-none my-auto">
       <CardHeader>
-        <CardTitle>{{ $t('auth.signup') }}</CardTitle>
+        <CardTitle>{{ $t('auth.signUp') }}</CardTitle>
       </CardHeader>
       <CardContent>
         <div class="flex flex-col gap-2">
