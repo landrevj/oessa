@@ -1,9 +1,4 @@
 export default {
-  common: {
-    email: 'Email',
-    name: 'Name',
-    or: 'Or',
-  },
   auth: {
     confirmPassword: 'Confirm Password',
     createAccount: 'Create Account',
@@ -22,6 +17,33 @@ export default {
     with: {
       apple: 'Continue with Apple',
       google: 'Continue with Google',
+    },
+  },
+  common: {
+    email: 'Email',
+    name: 'Name',
+    or: 'Or',
+    save: 'Save',
+  },
+  resources: {
+    groups: {
+      fields: {
+        name: 'Name',
+        image: 'Image',
+      },
+      delete: {
+        error: 'Failed to delete group.',
+      },
+      create: {
+        formTitle: 'Create a group',
+        success: 'Successfully created group {name}.',
+        error: 'Failed to create group.',
+      },
+      update: {
+        formTitle: 'Edit group',
+        success: 'Successfully updated group {name}',
+        error: 'Failed to update group.',
+      },
     },
   },
 };

@@ -3,17 +3,19 @@ import {
   getValidatedRouterParams,
   setResponseStatus,
 } from '#imports';
-import { z } from 'zod';
+import {
+  groupsDeleteParamsSchema,
+  groupsDeleteQuery,
+} from '~/utils/api/groups/[id].delete';
 import { db } from '~/db/db';
-
-export const paramsSchema = z.object({
-  id: z.string().uuid(),
-});
 
 const handler = defineEventHandler({
   handler: async (event) => {
-    const { id } = await getValidatedRouterParams(event, paramsSchema.parse);
-    await db.deleteFrom('group').where('id', '=', id).execute();
+    const params = await getValidatedRouterParams(
+      event,
+      groupsDeleteParamsSchema.parse,
+    );
+    await groupsDeleteQuery(db, params);
     setResponseStatus(event, 204);
   },
 });

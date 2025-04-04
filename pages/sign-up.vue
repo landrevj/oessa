@@ -1,17 +1,11 @@
 <script setup lang="ts">
-import { toTypedSchema } from '@vee-validate/zod';
-import { z } from 'zod';
-import { useForm } from 'vee-validate';
 import { navigateTo, useI18n } from '#imports';
-
-// utils
-import { authClient } from '~/lib/authClient';
+import { toTypedSchema } from '@vee-validate/zod';
+import { useForm } from 'vee-validate';
+import { z } from 'zod';
 
 // components
-import { Button } from '~/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
-import { Input } from '~/components/ui/input';
-import { Separator } from '~/components/ui/separator';
 import {
   FormControl,
   FormField,
@@ -19,11 +13,17 @@ import {
   FormLabel,
   FormMessage,
 } from '~/components/ui/form';
+import { Button } from '~/components/ui/button';
+import { Input } from '~/components/ui/input';
+import { Separator } from '~/components/ui/separator';
 
 // icons
 import LogosApple from '~icons/logos/apple';
 import LogosGoogleIcon from '~icons/logos/google-icon';
 import { toast } from 'vue-sonner';
+
+// utils
+import { authClient } from '~/lib/authClient';
 
 const { t } = useI18n();
 

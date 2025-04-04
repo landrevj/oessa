@@ -1,25 +1,14 @@
 import { defineEventHandler, readValidatedBody } from '#imports';
-import { z } from 'zod';
+import {
+  groupsPostBodySchema,
+  groupsPostQuery,
+} from '~/utils/api/groups/index.post';
 import { db } from '~/db/db';
-import type { ExtractHandlerResponseBody } from '~/utils/api/types';
 
-export const bodySchema = z.object({
-  name: z.string().min(1),
-  image: z.string().url().optional(),
-});
-
-const handler = defineEventHandler({
+export default defineEventHandler({
   handler: async (event) => {
-    const body = await readValidatedBody(event, bodySchema.parse);
+    const body = await readValidatedBody(event, groupsPostBodySchema.parse);
 
-    return db
-      .insertInto('group')
-      .values(body)
-      .returningAll()
-      .executeTakeFirstOrThrow();
+    return groupsPostQuery(db, body);
   },
 });
-
-export type RequestBody = z.infer<typeof bodySchema>;
-export type ResponseBody = ExtractHandlerResponseBody<typeof handler>;
-export default handler;

@@ -1,0 +1,25 @@
+{
+	"Vue Single-File Component": {
+		"scope": "vue",
+		"prefix": "sfc",
+		"body": [
+			"<script setup lang=\"ts\">",
+      "$3",
+      "// components",
+      "$4",
+      "// icons",
+      "$5",
+      "// utils",
+      "$6",
+      "// types",
+      "",
+      "$1",
+      "</script>",
+      "",
+      "<template>",
+      "$2",
+      "</template>",
+		],
+		"description": "Basic template for Vue SFCs"
+	}
+}

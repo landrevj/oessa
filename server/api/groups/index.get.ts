@@ -1,12 +1,9 @@
-import { defineEventHandler } from '#imports';
 import { db } from '~/db/db';
-import type { ExtractHandlerResponseBody } from '~/utils/api/types';
+import { defineEventHandler } from '#imports';
+import { groupsGetQuery } from '~/utils/api/groups/index.get';
 
-const handler = defineEventHandler({
+export default defineEventHandler({
   handler: () => {
-    return db.selectFrom('group').selectAll().execute();
+    return groupsGetQuery(db);
   },
 });
-
-export type ResponseBody = ExtractHandlerResponseBody<typeof handler>;
-export default handler;

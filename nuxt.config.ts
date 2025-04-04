@@ -12,34 +12,42 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/fonts',
     '@nuxtjs/color-mode',
-    [
-      '@nuxtjs/i18n',
-      {
-        baseUrl: process.env.BASE_URL,
-        vueI18n: './i18n/config.ts',
-        strategy: 'prefix_except_default',
-        defaultLocale: 'en',
-        locales: [
-          {
-            code: 'en',
-            language: 'en-US',
-          },
-        ],
-      },
-    ],
+    '@nuxtjs/i18n',
     '@nuxtjs/tailwindcss',
-    ['@vee-validate/nuxt', { autoImports: false }],
-    [
-      'nuxt-security',
-      {
-        headers: {
-          contentSecurityPolicy: {
-            'img-src': ['self', 'data:', 'https://lh3.googleusercontent.com/'],
-          },
-        },
-      },
-    ],
-    ['shadcn-nuxt', { prefix: '', componentDir: './components/ui' }],
+    '@vee-validate/nuxt',
+    'nuxt-security',
+    // 'shadcn-nuxt',
     'unplugin-icons/nuxt',
   ],
+  i18n: {
+    bundle: {
+      optimizeTranslationDirective: false,
+    },
+    baseUrl: process.env.NUXT_PUBLIC_BASE_URL,
+    strategy: 'prefix_except_default',
+    defaultLocale: 'en',
+    locales: [
+      {
+        code: 'en',
+        language: 'en-US',
+      },
+    ],
+    experimental: {
+      typedOptionsAndMessages: 'default',
+    },
+  },
+  security: {
+    headers: {
+      contentSecurityPolicy: {
+        'img-src': ['self', 'data:', 'https://lh3.googleusercontent.com/'],
+      },
+    },
+  },
+  // shadcn: {
+  //   prefix: '',
+  //   componentDir: './components/ui',
+  // },
+  veeValidate: {
+    autoImports: false,
+  },
 });
