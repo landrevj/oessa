@@ -1,8 +1,9 @@
-import { defineEventHandler } from '#imports';
 import { db } from '~/db/db';
+import { defineEventHandler } from 'h3';
+import { selectBasicUsers } from '~/utils/db/user';
 
 export default defineEventHandler({
   handler: () => {
-    return db.selectFrom('user').select(['id', 'name', 'image']).execute();
+    return selectBasicUsers(db);
   },
 });

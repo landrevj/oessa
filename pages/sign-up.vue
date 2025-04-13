@@ -76,7 +76,7 @@ const onSubmit = form.handleSubmit(({ email, name, password }) =>
       </CardHeader>
       <CardContent>
         <div class="flex flex-col gap-2">
-          <form class="flex flex-col gap-4" @submit="onSubmit">
+          <form class="flex flex-col gap-4" @submit.prevent="onSubmit">
             <FormField v-slot="{ componentField }" name="name">
               <FormItem>
                 <FormLabel>{{ $t('common.name') }}</FormLabel>
@@ -131,7 +131,7 @@ const onSubmit = form.handleSubmit(({ email, name, password }) =>
             variant="outline"
             @click="() => authClient.signIn.social({ provider: 'apple' })"
           >
-            <LogosApple />
+            <LogosApple fill="currentColor" />
             {{ $t('auth.with.apple') }}
           </Button>
           <Button

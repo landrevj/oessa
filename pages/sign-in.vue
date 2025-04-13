@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { toTypedSchema } from '@vee-validate/zod';
+import { toast } from 'vue-sonner';
 import { useForm } from 'vee-validate';
 import { useI18n } from '#imports';
 import { z } from 'zod';
-
-// utils
-import { authClient } from '~/lib/authClient';
 
 // components
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
@@ -21,10 +19,12 @@ import { CheckboxLabeled } from '~/components/ui/checkbox';
 import { Input } from '~/components/ui/input';
 import { Separator } from '~/components/ui/separator';
 
+// utils
+import { authClient } from '~/lib/authClient';
+
 // icons
 import LogosApple from '~icons/logos/apple';
 import LogosGoogleIcon from '~icons/logos/google-icon';
-import { toast } from 'vue-sonner';
 
 const { t } = useI18n();
 
@@ -64,7 +64,7 @@ const onSubmit = form.handleSubmit(({ email, password, rememberMe }) =>
       </CardHeader>
       <CardContent>
         <div class="flex flex-col gap-2">
-          <form class="flex flex-col gap-4" @submit="onSubmit">
+          <form class="flex flex-col gap-4" @submit.prevent="onSubmit">
             <FormField v-slot="{ componentField }" name="email">
               <FormItem>
                 <FormLabel>{{ $t('common.email') }}</FormLabel>
@@ -110,7 +110,7 @@ const onSubmit = form.handleSubmit(({ email, password, rememberMe }) =>
             variant="outline"
             @click="() => authClient.signIn.social({ provider: 'apple' })"
           >
-            <LogosApple />
+            <LogosApple fill="currentColor" />
             {{ $t('auth.with.apple') }}
           </Button>
           <Button

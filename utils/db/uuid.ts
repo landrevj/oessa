@@ -1,5 +1,5 @@
-import { sql } from 'kysely';
 import type { CreateTableBuilder } from 'kysely';
+import { sql } from 'kysely';
 
 export const withUuidPrimaryKey = <T extends string>(
   qb: CreateTableBuilder<T>,

@@ -1,10 +1,10 @@
-import type { Kysely } from 'kysely';
 import {
   createUpdatedAtTrigger,
   dropUpdatedAtTrigger,
   withTimestamps,
-} from '~/utils/db/schema/timestamps';
-import { withUuidPrimaryKey } from '~/utils/db/schema/uuid';
+} from '~/utils/db/timestamps';
+import type { Kysely } from 'kysely';
+import { withUuidPrimaryKey } from '~/utils/db/uuid';
 
 export async function up(db: Kysely<any>): Promise<void> {
   await db.schema

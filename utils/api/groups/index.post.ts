@@ -1,39 +1,24 @@
-import type { DB } from '~/db/types';
-import type { Kysely } from 'kysely';
-import type { SerializedDates } from '~/utils/types';
 import { z } from 'zod';
 
 export const groupsPostBodySchema = z.object({
-  name: z.string(),
+  name: z.string().min(1),
   image: z.string().url().optional(),
+  users: z.array(
+    z.object({
+      id: z.string(),
+      name: z.string().optional(),
+      image: z.string().nullable().optional(),
+    }),
+  ),
 });
 
 export type GroupsPostRequestBody = z.infer<typeof groupsPostBodySchema>;
 
-export const groupsPostQuery = (
-  db: Kysely<DB>,
-  body: GroupsPostRequestBody,
-) => {
-  return db
-    .insertInto('group')
-    .values(body)
-    .returningAll()
-    .executeTakeFirstOrThrow();
-};
-
-export type GroupsPostResponseBody = SerializedDates<
-  Awaited<ReturnType<typeof groupsPostQuery>>
->;
-
-export const createGroup = ({
-  body,
-}: {
-  body: GroupsPostRequestBody;
-}): Promise<GroupsPostResponseBody> => {
+export const createGroup = ({ body }: { body: GroupsPostRequestBody }) => {
   return $fetch('/api/groups', {
-    method: 'POST',
+    method: 'post',
     headers: {
-      'Content-Type': 'application/json',
+      'content-type': 'application/json',
     },
     body,
   });

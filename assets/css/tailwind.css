@@ -37,7 +37,7 @@
   }
 
   .dark {
-    --background: 240 10% 3.9%;
+    --background: 240 10% 5%;
     --foreground: 0 0% 98%;
 
     --muted: 240 3.7% 15.9%;
@@ -65,14 +65,5 @@
     --destructive-foreground: 0 0% 98%;
 
     --ring: 240 4.9% 83.9%;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
   }
 }

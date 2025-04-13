@@ -2,6 +2,7 @@
 import { ref, useI18n } from '#imports';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { DateTime } from 'luxon';
+import type { InternalApi } from 'nitropack';
 import { toTypedSchema } from '@vee-validate/zod';
 import { toast } from 'vue-sonner';
 import { useForm } from 'vee-validate';
@@ -14,15 +15,9 @@ import {
   CardHeader,
   CardTitle,
 } from '~/components/ui/card';
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '~/components/ui/form';
 import { Button } from '~/components/ui/button';
-import { Input } from '../ui/input';
+import GroupFormInputs from './GroupFormInputs.vue';
+import UserAvatar from '~/components/user/UserAvatar.vue';
 
 // icons
 import IcBaselineDelete from '~icons/ic/baseline-delete';
@@ -38,15 +33,15 @@ import {
 import { deleteGroup } from '~/utils/api/groups/[id].delete';
 
 // types
-import type { GroupsGetResponseBody } from '~/utils/api/groups/index.get';
 
 const queryClient = useQueryClient();
 const { t } = useI18n();
 
 const isEditing = ref(false);
 
-const { group } = defineProps<{ group: GroupsGetResponseBody[number] }>();
-
+const { group } = defineProps<{
+  group: InternalApi['/api/groups']['get'][number];
+}>();
 const { mutate } = useMutation({
   mutationFn: updateGroup,
   onSuccess: () => {
@@ -90,6 +85,13 @@ const { mutate: deleteGroupMutation } = useMutation({
     </CardHeader>
     <CardContent>
       <ul>
+        <li>
+          <ul class="flex gap-1">
+            <li v-for="user in group.users" :key="user.id">
+              <UserAvatar :name="user.name" :image="user.image" />
+            </li>
+          </ul>
+        </li>
         <li>{{ group.id }}</li>
         <li>{{ DateTime.fromISO(group.createdAt).toRelative() }}</li>
         <li>{{ DateTime.fromISO(group.updatedAt).toRelative() }}</li>
@@ -110,29 +112,12 @@ const { mutate: deleteGroupMutation } = useMutation({
     </CardFooter>
   </Card>
   <Card v-else>
-    <form class="contents" @submit="handleSubmit">
+    <form class="contents" @submit.prevent="handleSubmit">
       <CardHeader>
         <CardTitle>{{ $t('resources.groups.update.formTitle') }}</CardTitle>
       </CardHeader>
       <CardContent>
-        <FormField v-slot="{ componentField }" name="name">
-          <FormItem>
-            <FormLabel>{{ $t('resources.groups.fields.name') }}</FormLabel>
-            <FormControl>
-              <Input id="name" v-bind="componentField" />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        </FormField>
-        <FormField v-slot="{ componentField }" name="image">
-          <FormItem>
-            <FormLabel>{{ $t('resources.groups.fields.image') }}</FormLabel>
-            <FormControl>
-              <Input id="image" v-bind="componentField" />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        </FormField>
+        <GroupFormInputs />
       </CardContent>
       <CardFooter>
         <Button type="submit" size="icon">

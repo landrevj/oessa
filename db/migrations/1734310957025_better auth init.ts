@@ -1,5 +1,5 @@
 import type { Kysely } from 'kysely';
-import { withUuidPrimaryKey } from '~/utils/db/schema/uuid';
+import { withUuidPrimaryKey } from '~/utils/db/uuid';
 
 export async function up(db: Kysely<any>): Promise<void> {
   await db.schema

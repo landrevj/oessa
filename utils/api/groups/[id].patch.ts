@@ -1,6 +1,3 @@
-import type { DB } from '~/db/types';
-import type { Kysely } from 'kysely';
-import type { SerializedDates } from '~/utils/types';
 import { z } from 'zod';
 
 export const groupsPatchParamsSchema = z.object({
@@ -13,27 +10,17 @@ export const groupsPatchBodySchema = z
   .object({
     name: z.string().min(1),
     image: z.string().url().nullable(),
+    users: z.array(
+      z.object({
+        id: z.string(),
+        name: z.string().optional(),
+        image: z.string().nullable().optional(),
+      }),
+    ),
   })
   .partial();
 
 export type GroupsPatchRequestBody = z.infer<typeof groupsPatchBodySchema>;
-
-export const groupsPatchQuery = (
-  db: Kysely<DB>,
-  params: GroupsPatchParams,
-  body: GroupsPatchRequestBody,
-) => {
-  return db
-    .updateTable('group')
-    .set(body)
-    .where('id', '=', params.id)
-    .returningAll()
-    .executeTakeFirstOrThrow();
-};
-
-export type GroupsPatchResponseBody = SerializedDates<
-  Awaited<ReturnType<typeof groupsPatchQuery>>
->;
 
 export const updateGroup = ({
   id,
@@ -41,7 +28,7 @@ export const updateGroup = ({
 }: {
   id: GroupsPatchParams['id'];
   body: GroupsPatchRequestBody;
-}): Promise<GroupsPatchResponseBody> => {
+}) => {
   return $fetch(`/api/groups/${id}`, {
     method: 'PATCH',
     headers: {

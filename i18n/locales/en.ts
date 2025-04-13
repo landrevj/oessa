@@ -25,11 +25,30 @@ export default {
     or: 'Or',
     save: 'Save',
   },
+  layouts: {
+    title: 'something',
+  },
+  pages: {
+    fallback: {
+      title: 'oessa',
+    },
+    index: {
+      title: 'Home',
+    },
+  },
   resources: {
     groups: {
       fields: {
-        name: 'Name',
-        image: 'Image',
+        name: {
+          label: 'Name',
+        },
+        image: {
+          label: 'Image',
+        },
+        users: {
+          label: 'Members',
+          placeholder: 'Search for users...',
+        },
       },
       delete: {
         error: 'Failed to delete group.',

@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import type { CheckboxRootEmits, CheckboxRootProps } from 'radix-vue';
-import { cn } from '~/lib/utils';
-import IcRoundCheck from '~icons/ic/round-check?width=24px&height=24px';
 import {
   CheckboxIndicator,
   CheckboxRoot,
   useForwardPropsEmits,
 } from 'radix-vue';
-import { computed, type HTMLAttributes } from 'vue';
+import type { CheckboxRootEmits, CheckboxRootProps } from 'radix-vue';
+import { type HTMLAttributes, computed } from 'vue';
+import IcRoundCheck from '~icons/ic/round-check?width=24px&height=24px';
+import { cn } from '~/lib/utils';
 
 const props = defineProps<
   CheckboxRootProps & { class?: HTMLAttributes['class'] }

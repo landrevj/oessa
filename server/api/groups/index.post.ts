@@ -1,14 +1,31 @@
-import { defineEventHandler, readValidatedBody } from '#imports';
-import {
-  groupsPostBodySchema,
-  groupsPostQuery,
-} from '~/utils/api/groups/index.post';
+import { defineEventHandler, readValidatedBody } from 'h3';
+import { insertGroup, insertGroupUsers } from '~/utils/db/group';
 import { db } from '~/db/db';
+import { groupsPostBodySchema } from '~/utils/api/groups/index.post';
 
-export default defineEventHandler({
+const handler = defineEventHandler({
   handler: async (event) => {
-    const body = await readValidatedBody(event, groupsPostBodySchema.parse);
+    const { users, ...group } = await readValidatedBody(
+      event,
+      groupsPostBodySchema.parse,
+    );
 
-    return groupsPostQuery(db, body);
+    const newGroup = await db.transaction().execute(async (trx) => {
+      const insertedGroup = await insertGroup(trx, group);
+
+      if (users?.length) {
+        await insertGroupUsers(
+          trx,
+          insertedGroup.id,
+          users.map((user) => user.id),
+        );
+      }
+
+      return { ...group, users };
+    });
+
+    return newGroup;
   },
 });
+
+export default handler;
