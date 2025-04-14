@@ -1,17 +1,12 @@
 <script setup lang="ts">
 import { toTypedSchema } from '@vee-validate/zod';
-import { z } from 'zod';
+import { toast } from 'vue-sonner';
 import { useForm } from 'vee-validate';
 import { useI18n } from '#imports';
-
-// utils
-import { authClient } from '~/lib/authClient';
+import { z } from 'zod';
 
 // components
-import { Button } from '~/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
-import { Input } from '~/components/ui/input';
-import { Separator } from '~/components/ui/separator';
 import {
   FormControl,
   FormField,
@@ -19,12 +14,17 @@ import {
   FormLabel,
   FormMessage,
 } from '~/components/ui/form';
+import { Button } from '~/components/ui/button';
+import { CheckboxLabeled } from '~/components/ui/checkbox';
+import { Input } from '~/components/ui/input';
+import { Separator } from '~/components/ui/separator';
+
+// utils
+import { authClient } from '~/lib/authClient';
 
 // icons
 import LogosApple from '~icons/logos/apple';
 import LogosGoogleIcon from '~icons/logos/google-icon';
-import { toast } from 'vue-sonner';
-import { CheckboxLabeled } from '~/components/ui/checkbox';
 
 const { t } = useI18n();
 
@@ -46,8 +46,8 @@ const onSubmit = form.handleSubmit(({ email, password, rememberMe }) =>
     callbackURL: '/',
     fetchOptions: {
       onError: (ctx) => {
-        toast.error(t('auth.error.login'), {
-          description: ctx.error.message || t('auth.error.loginFailure'),
+        toast.error(t('auth.error.signIn'), {
+          description: ctx.error.message || t('auth.error.signInFailure'),
           dismissible: true,
         });
       },
@@ -60,11 +60,11 @@ const onSubmit = form.handleSubmit(({ email, password, rememberMe }) =>
   <div class="w-screen h-screen flex justify-center">
     <Card class="w-full md:w-[500px] border-none shadow-none my-auto">
       <CardHeader>
-        <CardTitle>{{ $t('auth.login') }}</CardTitle>
+        <CardTitle>{{ $t('auth.signIn') }}</CardTitle>
       </CardHeader>
       <CardContent>
         <div class="flex flex-col gap-2">
-          <form class="flex flex-col gap-4" @submit="onSubmit">
+          <form class="flex flex-col gap-4" @submit.prevent="onSubmit">
             <FormField v-slot="{ componentField }" name="email">
               <FormItem>
                 <FormLabel>{{ $t('common.email') }}</FormLabel>
@@ -101,7 +101,7 @@ const onSubmit = form.handleSubmit(({ email, password, rememberMe }) =>
               </FormItem>
             </FormField>
             <Button type="submit">
-              {{ $t('auth.login') }}
+              {{ $t('auth.signIn') }}
             </Button>
           </form>
           <Separator :label="$t('common.or')" class="my-4" />
@@ -110,7 +110,7 @@ const onSubmit = form.handleSubmit(({ email, password, rememberMe }) =>
             variant="outline"
             @click="() => authClient.signIn.social({ provider: 'apple' })"
           >
-            <LogosApple />
+            <LogosApple fill="currentColor" />
             {{ $t('auth.with.apple') }}
           </Button>
           <Button

@@ -1,9 +1,15 @@
 <script setup lang="ts">
-import { useRoute, useI18n, useLocaleHead, computed } from '#imports';
+import { Body, Head, Html, Link, Meta, Title } from '#components';
+import { computed, useI18n, useLocaleHead, useRoute } from '#imports';
 const { t } = useI18n();
 const route = useRoute();
 const head = useLocaleHead();
-const title = computed(() => t(route.meta.title ?? 'TBD', t('layouts.title')));
+const title = computed(() =>
+  t(
+    (route.meta.title as string | undefined) ?? 'pages.fallback.title',
+    t('layouts.title'),
+  ),
+);
 </script>
 
 <template>

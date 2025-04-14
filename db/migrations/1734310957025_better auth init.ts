@@ -1,9 +1,10 @@
 import type { Kysely } from 'kysely';
+import { withUuidPrimaryKey } from '~/utils/db/uuid';
 
 export async function up(db: Kysely<any>): Promise<void> {
   await db.schema
     .createTable('user')
-    .addColumn('id', 'text', (col) => col.notNull().primaryKey())
+    .$call(withUuidPrimaryKey)
     .addColumn('name', 'text', (col) => col.notNull())
     .addColumn('email', 'text', (col) => col.notNull().unique())
     .addColumn('emailVerified', 'boolean', (col) => col.notNull())
@@ -14,22 +15,22 @@ export async function up(db: Kysely<any>): Promise<void> {
 
   await db.schema
     .createTable('session')
-    .addColumn('id', 'text', (col) => col.notNull().primaryKey())
+    .$call(withUuidPrimaryKey)
     .addColumn('expiresAt', 'timestamp', (col) => col.notNull())
     .addColumn('token', 'text', (col) => col.notNull().unique())
     .addColumn('createdAt', 'timestamp', (col) => col.notNull())
     .addColumn('updatedAt', 'timestamp', (col) => col.notNull())
     .addColumn('ipAddress', 'text')
     .addColumn('userAgent', 'text')
-    .addColumn('userId', 'text', (col) => col.notNull().references('user.id'))
+    .addColumn('userId', 'uuid', (col) => col.notNull().references('user.id'))
     .execute();
 
   await db.schema
     .createTable('account')
-    .addColumn('id', 'text', (col) => col.notNull().primaryKey())
+    .$call(withUuidPrimaryKey)
     .addColumn('accountId', 'text', (col) => col.notNull())
     .addColumn('providerId', 'text', (col) => col.notNull())
-    .addColumn('userId', 'text', (col) => col.notNull().references('user.id'))
+    .addColumn('userId', 'uuid', (col) => col.notNull().references('user.id'))
     .addColumn('accessToken', 'text')
     .addColumn('refreshToken', 'text')
     .addColumn('idToken', 'text')
@@ -43,7 +44,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 
   await db.schema
     .createTable('verification')
-    .addColumn('id', 'text', (col) => col.notNull().primaryKey())
+    .$call(withUuidPrimaryKey)
     .addColumn('identifier', 'text', (col) => col.notNull())
     .addColumn('value', 'text', (col) => col.notNull())
     .addColumn('expiresAt', 'timestamp', (col) => col.notNull())
@@ -53,8 +54,8 @@ export async function up(db: Kysely<any>): Promise<void> {
 }
 
 export async function down(db: Kysely<any>): Promise<void> {
-  await db.schema.dropTable('user').execute();
-  await db.schema.dropTable('session').execute();
   await db.schema.dropTable('account').execute();
+  await db.schema.dropTable('session').execute();
+  await db.schema.dropTable('user').execute();
   await db.schema.dropTable('verification').execute();
 }

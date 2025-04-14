@@ -1,4 +1,4 @@
-import { toValue, type MaybeRefOrGetter } from 'vue';
+import { type MaybeRefOrGetter, toValue } from 'vue';
 
 export const makeSelector =
   <T, R>(selector: (data: T) => R) =>
