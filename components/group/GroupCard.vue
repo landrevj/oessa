@@ -93,8 +93,24 @@ const { mutate: deleteGroupMutation } = useMutation({
           </ul>
         </li>
         <li>{{ group.id }}</li>
-        <li>{{ DateTime.fromISO(group.createdAt).toRelative() }}</li>
-        <li>{{ DateTime.fromISO(group.updatedAt).toRelative() }}</li>
+        <li
+          :title="
+            DateTime.fromISO(group.createdAt)
+              .toLocal()
+              .toLocaleString(DateTime.DATETIME_FULL)
+          "
+        >
+          {{ DateTime.fromISO(group.createdAt).toRelative() }}
+        </li>
+        <li
+          :title="
+            DateTime.fromISO(group.updatedAt)
+              .toLocal()
+              .toLocaleString(DateTime.DATETIME_FULL)
+          "
+        >
+          {{ DateTime.fromISO(group.updatedAt).toRelative() }}
+        </li>
         <li>{{ group.image }}</li>
       </ul>
     </CardContent>

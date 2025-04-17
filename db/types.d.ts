@@ -28,9 +28,31 @@ export interface Account {
   userId: string;
 }
 
-export interface Group {
+export interface Comment {
+  body: string;
   createdAt: Generated<Timestamp>;
   id: Generated<string>;
+  path: string;
+  title: string | null;
+  updatedAt: Generated<Timestamp>;
+}
+
+export interface Commentable {
+  id: Generated<string>;
+}
+
+export interface CommentableComment {
+  commentableId: string;
+  commentId: string;
+  createdAt: Generated<Timestamp>;
+  defaultView: Generated<string>;
+  note: string | null;
+  updatedAt: Generated<Timestamp>;
+}
+
+export interface Group {
+  createdAt: Generated<Timestamp>;
+  id: string;
   image: string | null;
   name: string;
   updatedAt: Generated<Timestamp>;
@@ -39,6 +61,14 @@ export interface Group {
 export interface GroupUser {
   createdAt: Generated<Timestamp>;
   groupId: string;
+  updatedAt: Generated<Timestamp>;
+  userId: string;
+}
+
+export interface Reaction {
+  commentId: string;
+  createdAt: Generated<Timestamp>;
+  reaction: string;
   updatedAt: Generated<Timestamp>;
   userId: string;
 }
@@ -75,8 +105,12 @@ export interface Verification {
 
 export interface DB {
   account: Account;
+  comment: Comment;
+  commentable: Commentable;
+  commentableComment: CommentableComment;
   group: Group;
   groupUser: GroupUser;
+  reaction: Reaction;
   session: Session;
   user: User;
   verification: Verification;

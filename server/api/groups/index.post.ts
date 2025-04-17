@@ -1,7 +1,7 @@
 import { defineEventHandler, readValidatedBody } from 'h3';
-import { insertGroup, insertGroupUsers } from '~/utils/db/group';
 import { db } from '~/db/db';
 import { groupsPostBodySchema } from '~/utils/api/groups/index.post';
+import { insertGroupUsers } from '~/utils/db/group';
 
 const handler = defineEventHandler({
   handler: async (event) => {
@@ -11,7 +11,17 @@ const handler = defineEventHandler({
     );
 
     const newGroup = await db.transaction().execute(async (trx) => {
-      const insertedGroup = await insertGroup(trx, group);
+      const { id } = await db
+        .insertInto('commentable')
+        .defaultValues()
+        .returning('id')
+        .executeTakeFirstOrThrow();
+
+      const insertedGroup = await db
+        .insertInto('group')
+        .values({ id, ...group })
+        .returningAll()
+        .executeTakeFirstOrThrow();
 
       if (users?.length) {
         await insertGroupUsers(

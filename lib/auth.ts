@@ -4,7 +4,9 @@ import { db } from '../db/db';
 export const auth = betterAuth({
   advanced: {
     cookiePrefix: 'oessa',
-    generateId: false,
+    database: {
+      generateId: false,
+    },
   },
   database: {
     db: db,

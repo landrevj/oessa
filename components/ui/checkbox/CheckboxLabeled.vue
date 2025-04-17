@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import type { CheckboxRootProps } from 'radix-vue';
 import Checkbox from './Checkbox.vue';
+import type { CheckboxRootProps } from 'radix-vue';
+import Label from '../label/Label.vue';
 
 defineProps<CheckboxRootProps>();
 defineOptions({
