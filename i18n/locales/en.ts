@@ -28,17 +28,43 @@ export default {
   layouts: {
     title: 'something',
   },
-  pages: {
+  page: {
     fallback: {
       title: 'oessa',
     },
     index: {
       title: 'Home',
     },
+    group: {
+      id: {
+        title: 'Group',
+      },
+    },
   },
-  resources: {
-    groups: {
-      fields: {
+  resource: {
+    comment: {
+      field: {
+        title: {
+          label: 'Title',
+          missing: 'No title...',
+        },
+        message: {
+          label: 'Message',
+        },
+      },
+      create: {
+        formTitle: 'Create a comment',
+        success: 'Successfully created a comment.',
+        error: 'Failed to create comment.',
+      },
+      reply: {
+        formTitle: 'Reply to...',
+        success: 'Successfully created a comment.',
+        error: 'Failed to create comment.',
+      },
+    },
+    group: {
+      field: {
         name: {
           label: 'Name',
         },
@@ -62,6 +88,13 @@ export default {
         formTitle: 'Edit group',
         success: 'Successfully updated group {name}',
         error: 'Failed to update group.',
+      },
+    },
+    thread: {
+      create: {
+        formTitle: 'Create a thread',
+        success: 'Successfully created a thread.',
+        error: 'Failed to create thread.',
       },
     },
   },

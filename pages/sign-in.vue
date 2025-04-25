@@ -69,7 +69,7 @@ const onSubmit = form.handleSubmit(({ email, password, rememberMe }) =>
               <FormItem>
                 <FormLabel>{{ $t('common.email') }}</FormLabel>
                 <FormControl>
-                  <Input id="email" v-bind="componentField" />
+                  <Input v-bind="componentField" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -78,11 +78,7 @@ const onSubmit = form.handleSubmit(({ email, password, rememberMe }) =>
               <FormItem>
                 <FormLabel>{{ $t('auth.password') }}</FormLabel>
                 <FormControl>
-                  <Input
-                    id="password"
-                    type="password"
-                    v-bind="componentField"
-                  />
+                  <Input type="password" v-bind="componentField" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -91,7 +87,6 @@ const onSubmit = form.handleSubmit(({ email, password, rememberMe }) =>
               <FormItem>
                 <FormControl>
                   <CheckboxLabeled
-                    id="rememberMe"
                     :checked="value"
                     @update:checked="handleChange"
                   >

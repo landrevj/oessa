@@ -4,6 +4,7 @@ import { computed, useI18n, useLocaleHead, useRoute } from '#imports';
 const { t } = useI18n();
 const route = useRoute();
 const head = useLocaleHead();
+
 const title = computed(() =>
   t(
     (route.meta.title as string | undefined) ?? 'pages.fallback.title',

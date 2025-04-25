@@ -13,14 +13,6 @@ export const groupUsers = (db: Kysely<DB>, groupId: Expression<string>) => {
   );
 };
 
-export const selectAllGroupsWithUsers = (db: Kysely<DB>) => {
-  return db
-    .selectFrom('group')
-    .selectAll('group')
-    .select(({ ref }) => groupUsers(db, ref('group.id')).as('users'))
-    .execute();
-};
-
 export const insertGroupUsers = (
   db: Kysely<DB>,
   groupId: string,

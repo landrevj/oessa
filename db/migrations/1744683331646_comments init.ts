@@ -11,20 +11,14 @@ export async function up(db: Kysely<any>): Promise<void> {
     .createTable('comment')
     .$call(withUuidPrimaryKey)
     .$call(withTimestamps)
-    .addColumn('path', sql`ltree`, (col) => col.notNull())
+    .addColumn('parent_id', 'uuid', (col) => col.references('comment.id'))
+    .addColumn('user_id', 'uuid', (col) => col.notNull().references('user.id'))
     .addColumn('title', 'text')
-    .addColumn('body', 'text', (col) => col.notNull())
+    .addColumn('message', 'text', (col) => col.notNull())
     .execute();
 
   await db.schema
-    .createIndex('comment_path_unique_index')
-    .on('comment')
-    .column('path')
-    .using('gist')
-    .execute();
-
-  await db.schema
-    .createTable('commentable_comment')
+    .createTable('thread')
     .$call(withTimestamps)
     .addColumn('commentable_id', 'uuid', (col) =>
       col.notNull().references('commentable.id'),
@@ -32,11 +26,11 @@ export async function up(db: Kysely<any>): Promise<void> {
     .addColumn('comment_id', 'uuid', (col) =>
       col.notNull().references('comment.id'),
     )
+    .addColumn('note', 'text')
     .addColumn('default_view', 'text', (col) =>
       col.notNull().defaultTo('chronological'),
     )
-    .addColumn('note', 'text')
-    .addPrimaryKeyConstraint('commentable_comment_primary_key', [
+    .addPrimaryKeyConstraint('thread_primary_key', [
       'commentable_id',
       'comment_id',
     ])
@@ -62,15 +56,15 @@ export async function up(db: Kysely<any>): Promise<void> {
     .execute();
 
   await createUpdatedAtTrigger(db, 'comment');
-  await createUpdatedAtTrigger(db, 'commentable_comment');
+  await createUpdatedAtTrigger(db, 'thread');
   await createUpdatedAtTrigger(db, 'reaction');
 }
 
 export async function down(db: Kysely<any>): Promise<void> {
   await dropUpdatedAtTrigger(db, 'reaction');
-  await dropUpdatedAtTrigger(db, 'commentable_comment');
+  await dropUpdatedAtTrigger(db, 'thread');
   await dropUpdatedAtTrigger(db, 'comment');
   await db.schema.dropTable('reaction').execute();
-  await db.schema.dropTable('commentable_comment').execute();
+  await db.schema.dropTable('thread').execute();
   await db.schema.dropTable('comment').execute();
 }

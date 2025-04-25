@@ -21,5 +21,20 @@
       "</template>",
 		],
 		"description": "Basic template for Vue SFCs"
+	},
+	"H3 Endpoint": {
+		"scope": "typescript",
+		"prefix": "h3e",
+		"body": [
+			"import { db } from '~/db/db';",
+      "import { defineEventHandler } from 'h3';",
+      "",
+      "export default defineEventHandler({",
+      "  handler: () => {",
+      "    return $1;",
+      "  },",
+      "});",
+		],
+		"description": "Basic template for Vue SFCs"
 	}
 }

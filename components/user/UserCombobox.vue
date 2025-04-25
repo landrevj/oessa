@@ -85,7 +85,7 @@ const filteredUsers = computed(() => {
         >
           <TagsInputInput
             class="min-w-[200px] w-full p-0 border-none focus-visible:ring-0 h-auto"
-            :placeholder="$t('resources.groups.fields.users.placeholder')"
+            :placeholder="$t('resource.group.field.users.placeholder')"
             @keydown.enter.prevent
             @click="isOpen = true"
           />

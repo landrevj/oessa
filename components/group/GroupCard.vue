@@ -49,7 +49,7 @@ const { mutate } = useMutation({
     isEditing.value = false;
   },
   onError: ({ message }) => {
-    toast.error(t('resources.groups.update.error'), { description: message });
+    toast.error(t('resource.group.update.error'), { description: message });
   },
 });
 
@@ -73,7 +73,7 @@ const { mutate: deleteGroupMutation } = useMutation({
     queryClient.invalidateQueries({ queryKey: ['groups'] });
   },
   onError: ({ message }) => {
-    toast.error(t('resources.groups.delete.error'), { description: message });
+    toast.error(t('resource.group.delete.error'), { description: message });
   },
 });
 </script>
@@ -81,7 +81,9 @@ const { mutate: deleteGroupMutation } = useMutation({
 <template>
   <Card v-if="!isEditing">
     <CardHeader>
-      <CardTitle>{{ group.name }}</CardTitle>
+      <CardTitle>
+        <a :href="`/groups/${group.id}`">{{ group.name }}</a>
+      </CardTitle>
     </CardHeader>
     <CardContent>
       <ul>
@@ -128,9 +130,9 @@ const { mutate: deleteGroupMutation } = useMutation({
     </CardFooter>
   </Card>
   <Card v-else>
-    <form class="contents" @submit.prevent="handleSubmit">
+    <form @submit.prevent="handleSubmit">
       <CardHeader>
-        <CardTitle>{{ $t('resources.groups.update.formTitle') }}</CardTitle>
+        <CardTitle>{{ $t('resource.group.update.formTitle') }}</CardTitle>
       </CardHeader>
       <CardContent>
         <GroupFormInputs />

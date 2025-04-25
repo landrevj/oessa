@@ -81,7 +81,7 @@ const onSubmit = form.handleSubmit(({ email, name, password }) =>
               <FormItem>
                 <FormLabel>{{ $t('common.name') }}</FormLabel>
                 <FormControl>
-                  <Input id="name" v-bind="componentField" />
+                  <Input v-bind="componentField" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -90,7 +90,7 @@ const onSubmit = form.handleSubmit(({ email, name, password }) =>
               <FormItem>
                 <FormLabel>{{ $t('common.email') }}</FormLabel>
                 <FormControl>
-                  <Input id="email" v-bind="componentField" />
+                  <Input v-bind="componentField" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -99,11 +99,7 @@ const onSubmit = form.handleSubmit(({ email, name, password }) =>
               <FormItem>
                 <FormLabel>{{ $t('auth.password') }}</FormLabel>
                 <FormControl>
-                  <Input
-                    id="password"
-                    type="password"
-                    v-bind="componentField"
-                  />
+                  <Input type="password" v-bind="componentField" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -112,11 +108,7 @@ const onSubmit = form.handleSubmit(({ email, name, password }) =>
               <FormItem>
                 <FormLabel>{{ $t('auth.confirmPassword') }}</FormLabel>
                 <FormControl>
-                  <Input
-                    id="confirmPassword"
-                    type="password"
-                    v-bind="componentField"
-                  />
+                  <Input type="password" v-bind="componentField" />
                 </FormControl>
                 <FormMessage />
               </FormItem>

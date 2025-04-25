@@ -50,11 +50,11 @@ const { isPending, mutate } = useMutation({
   mutationFn: createGroup,
   onSuccess: (_, variables) => {
     createGroupForm.resetForm();
-    toast.success(t('resources.groups.create.success', variables));
+    toast.success(t('resource.group.create.success', variables));
     queryClient.invalidateQueries({ queryKey: ['groups'] });
   },
   onError: ({ message }) => {
-    toast.error(t('resources.groups.create.error'), {
+    toast.error(t('resource.group.create.error'), {
       description: message,
     });
   },
@@ -91,10 +91,10 @@ const handleSubmit = createGroupForm.handleSubmit((values) =>
         {{ session?.data?.user.name }}
       </Card>
       <Card>
-        <CardHeader>
-          <CardTitle>{{ $t('resources.groups.create.formTitle') }}</CardTitle>
-        </CardHeader>
-        <form class="contents" @submit.prevent="handleSubmit">
+        <form @submit.prevent="handleSubmit">
+          <CardHeader>
+            <CardTitle>{{ $t('resource.group.create.formTitle') }}</CardTitle>
+          </CardHeader>
           <CardContent class="flex flex-col gap-4">
             <GroupFormInputs />
           </CardContent>

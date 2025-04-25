@@ -24,25 +24,25 @@ const { data: users } = useQuery({
 <template>
   <FormField v-slot="{ componentField }" name="name">
     <FormItem>
-      <FormLabel>{{ $t('resources.groups.fields.name.label') }}</FormLabel>
+      <FormLabel>{{ $t('resource.group.field.name.label') }}</FormLabel>
       <FormControl>
-        <Input id="name" v-bind="componentField" />
+        <Input v-bind="componentField" />
       </FormControl>
       <FormMessage />
     </FormItem>
   </FormField>
   <FormField v-slot="{ componentField }" name="image">
     <FormItem>
-      <FormLabel>{{ $t('resources.groups.fields.image.label') }}</FormLabel>
+      <FormLabel>{{ $t('resource.group.field.image.label') }}</FormLabel>
       <FormControl>
-        <Input id="image" v-bind="componentField" />
+        <Input v-bind="componentField" />
       </FormControl>
       <FormMessage />
     </FormItem>
   </FormField>
   <FormField v-slot="{ componentField }" name="users">
     <FormItem>
-      <FormLabel>{{ $t('resources.groups.fields.users.label') }}</FormLabel>
+      <FormLabel>{{ $t('resource.group.field.users.label') }}</FormLabel>
       <FormControl>
         <UserCombobox v-bind="componentField" :users />
       </FormControl>
