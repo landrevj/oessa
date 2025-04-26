@@ -13,6 +13,15 @@ import {
   CardHeader,
   CardTitle,
 } from '~/shadcn/components/card';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '~/shadcn/components/select';
 import { Button } from '~/shadcn/components/button';
 import GroupCard from '~/components/group/GroupCard.vue';
 import GroupFormInputs from '~/components/group/GroupFormInputs.vue';
@@ -66,48 +75,53 @@ const handleSubmit = createGroupForm.handleSubmit((values) =>
 </script>
 
 <template>
-  <div>
-    <Button href="/test" as="a">Go to test</Button>
-    <Button v-if="!session?.data" href="/sign-in" as="a">
+  <div v-if="!session?.data">
+    <Button href="/sign-in" as="a">
       {{ $t('auth.signIn') }}
     </Button>
-    <Button v-if="!session?.data" href="/sign-up" as="a">
+    <Button href="/sign-up" as="a">
       {{ $t('auth.signUp') }}
     </Button>
-    <Button v-else @click="authClient.signOut()">
-      {{ $t('auth.signOut') }}
-    </Button>
-    <select v-model="$colorMode.preference">
-      <option value="system">System</option>
-      <option value="light">Light</option>
-      <option value="dark">Dark</option>
-    </select>
-    <div v-if="session?.data" class="container gap-4 flex flex-col">
-      <Card class="flex flex-row items-center gap-2 p-2">
-        <UserAvatar
-          :name="session.data.user.name"
-          :image="session.data.user.image"
-        />
-        {{ session?.data?.user.name }}
-      </Card>
-      <Card>
-        <form @submit.prevent="handleSubmit">
-          <CardHeader>
-            <CardTitle>{{ $t('resource.group.create.formTitle') }}</CardTitle>
-          </CardHeader>
-          <CardContent class="flex flex-col gap-4">
-            <GroupFormInputs />
-          </CardContent>
-          <CardFooter>
-            <Button type="submit" :disabled="isPending">
-              {{ $t('common.save') }}
-            </Button>
-          </CardFooter>
-        </form>
-      </Card>
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <GroupCard v-for="group in data" :key="group.id" :group />
-      </div>
+  </div>
+  <div v-else class="container gap-4 flex flex-col">
+    <Card class="flex flex-row items-center gap-2 p-2">
+      <UserAvatar
+        :name="session.data.user.name"
+        :image="session.data.user.image"
+      />
+      {{ session?.data?.user.name }}
+      <div class="flex-grow" />
+      <Select v-model="$colorMode.preference">
+        <SelectTrigger>
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="system">System</SelectItem>
+          <SelectItem value="light">Light</SelectItem>
+          <SelectItem value="dark">Dark</SelectItem>
+        </SelectContent>
+      </Select>
+      <Button @click="authClient.signOut()">
+        {{ $t('auth.signOut') }}
+      </Button>
+    </Card>
+    <Card>
+      <form @submit.prevent="handleSubmit">
+        <CardHeader>
+          <CardTitle>{{ $t('resource.group.create.formTitle') }}</CardTitle>
+        </CardHeader>
+        <CardContent class="flex flex-col gap-4">
+          <GroupFormInputs />
+        </CardContent>
+        <CardFooter>
+          <Button type="submit" :disabled="isPending">
+            {{ $t('common.save') }}
+          </Button>
+        </CardFooter>
+      </form>
+    </Card>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <GroupCard v-for="group in data" :key="group.id" :group />
     </div>
   </div>
 </template>
