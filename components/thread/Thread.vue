@@ -2,7 +2,12 @@
 import type { InternalApi } from 'nitropack';
 
 // components
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '~/shadcn/components/card';
 
 // icons
 

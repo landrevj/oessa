@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { NuxtLayout, NuxtPage, NuxtRouteAnnouncer } from '#components';
-import { Toaster } from './components/ui/sonner';
+import { Toaster } from '~/shadcn/components/sonner';
 </script>
 
 <template>

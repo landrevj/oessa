@@ -12,8 +12,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '~/components/ui/card';
-import { Button } from '~/components/ui/button';
+} from '~/shadcn/components/card';
+import { Button } from '~/shadcn/components/button';
 import GroupCard from '~/components/group/GroupCard.vue';
 import GroupFormInputs from '~/components/group/GroupFormInputs.vue';
 import UserAvatar from '~/components/user/UserAvatar.vue';
@@ -83,7 +83,7 @@ const handleSubmit = createGroupForm.handleSubmit((values) =>
       <option value="dark">Dark</option>
     </select>
     <div v-if="session?.data" class="container gap-4 flex flex-col">
-      <Card class="flex items-center gap-2 p-2">
+      <Card class="flex flex-row items-center gap-2 p-2">
         <UserAvatar
           :name="session.data.user.name"
           :image="session.data.user.image"

@@ -6,9 +6,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '~/components/ui/form';
-import { Input } from '../ui/input';
-import { Textarea } from '../ui/textarea';
+} from '~/shadcn/components/form';
+import { Input } from '~/shadcn/components/input';
+import { Textarea } from '~/shadcn/components/textarea';
 
 // icons
 

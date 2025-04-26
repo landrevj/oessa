@@ -14,8 +14,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '~/components/ui/card';
-import { Button } from '~/components/ui/button';
+} from '~/shadcn/components/card';
+import { Button } from '~/shadcn/components/button';
 import GroupFormInputs from './GroupFormInputs.vue';
 import UserAvatar from '~/components/user/UserAvatar.vue';
 

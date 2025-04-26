@@ -13,8 +13,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '~/components/ui/card';
-import { Button } from '~/components/ui/button';
+} from '~/shadcn/components/card';
+import { Button } from '~/shadcn/components/button';
 import CommentFormInputs from '~/components/comment/CommentFormInputs.vue';
 import Thread from '~/components/thread/Thread.vue';
 import UserAvatar from '~/components/user/UserAvatar.vue';

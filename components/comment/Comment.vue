@@ -15,10 +15,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '../ui/dialog';
-import { Button } from '../ui/button';
+} from '~/shadcn/components/dialog';
+import { Button } from '~/shadcn/components/button';
 import CommentFormInputs from './CommentFormInputs.vue';
-import DialogFooter from '../ui/dialog/DialogFooter.vue';
+import DialogFooter from '~/shadcn/components/dialog/DialogFooter.vue';
 import UserAvatar from '../user/UserAvatar.vue';
 
 // icons
@@ -29,7 +29,7 @@ import {
   commentPostBodySchema,
   createComment,
 } from '~/utils/api/comments/[id]/comments.post';
-import { cn } from '~/lib/utils';
+import { cn } from '~/shadcn/lib/utils';
 
 // types
 
@@ -82,14 +82,10 @@ const handleSubmit = form.handleSubmit((values) =>
   >
     <div class="flex flex-col gap-2">
       <div class="flex gap-2 items-center">
-        <UserAvatar
-          size="xs"
-          :name="comment.user.name"
-          :image="comment.user.image"
-        />
+        <UserAvatar :name="comment.user.name" :image="comment.user.image" />
         <span>{{ comment.user.name }}</span>
         <span
-          class="text-opacity-50 text-black dark:text-white dark:text-opacity-50"
+          class="text-black/50 dark:text-white/50"
           :title="
             DateTime.fromISO(comment.createdAt as unknown as string)
               .toLocal()
@@ -107,15 +103,21 @@ const handleSubmit = form.handleSubmit((values) =>
       <div
         class="flex flex-row text-opacity-50 text-black dark:text-white dark:text-opacity-50"
       >
-        <Button variant="ghost" size="icon"><IcRoundAddReaction /></Button>
+        <Button class="text-current/50" variant="ghost" size="icon">
+          <IcRoundAddReaction />
+        </Button>
         <Dialog v-model:open="isReplyDialogOpen">
           <DialogTrigger as-child>
-            <Button variant="ghost" @click="() => (isReplyDialogOpen = true)">
+            <Button
+              class="text-current/50"
+              variant="ghost"
+              @click="() => (isReplyDialogOpen = true)"
+            >
               reply
             </Button>
           </DialogTrigger>
           <DialogContent>
-            <form class="contents" @submit.prevent="handleSubmit">
+            <form @submit.prevent="handleSubmit">
               <DialogHeader>
                 <DialogTitle>
                   {{ $t('resource.comment.reply.formTitle') }}

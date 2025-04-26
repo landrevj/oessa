@@ -8,8 +8,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '~/components/ui/form';
-import { Input } from '../ui/input';
+} from '~/shadcn/components/form';
+import { Input } from '~/shadcn/components/input';
 import UserCombobox from '../user/UserCombobox.vue';
 
 // utils

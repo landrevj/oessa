@@ -5,17 +5,22 @@ import { useForm } from 'vee-validate';
 import { z } from 'zod';
 
 // components
-import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '~/shadcn/components/card';
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from '~/components/ui/form';
-import { Button } from '~/components/ui/button';
-import { Input } from '~/components/ui/input';
-import { Separator } from '~/components/ui/separator';
+} from '~/shadcn/components/form';
+import { Button } from '~/shadcn/components/button';
+import { Input } from '~/shadcn/components/input';
+import { Separator } from '~/shadcn/components/separator';
 
 // icons
 import LogosApple from '~icons/logos/apple';
