@@ -56,6 +56,7 @@ export default defineEventHandler({
                   .as('user'),
                 sql<number>`"parent"."depth" + 1`.as('depth'),
               ])
+              // .where(sql<number>`"parent"."depth" + 1`, '<', 4)
               .innerJoin('node as parent', 'parent.id', 'child.parent_id'),
           ),
       )

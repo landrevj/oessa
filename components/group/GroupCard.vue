@@ -134,7 +134,7 @@ const { mutate: deleteGroupMutation } = useMutation({
       <CardHeader>
         <CardTitle>{{ $t('resource.group.update.formTitle') }}</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent class="flex flex-col gap-4">
         <GroupFormInputs />
       </CardContent>
       <CardFooter>

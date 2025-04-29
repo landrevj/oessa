@@ -58,6 +58,7 @@ export default {
         error: 'Failed to create comment.',
       },
       reply: {
+        action: 'reply',
         formTitle: 'Reply to...',
         success: 'Successfully created a comment.',
         error: 'Failed to create comment.',

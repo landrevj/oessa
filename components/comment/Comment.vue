@@ -34,13 +34,9 @@ import { cn } from '~/shadcn/lib/utils';
 // types
 
 const { t } = useI18n();
-const {
-  comment,
-  depth = 0,
-  rootId,
-} = defineProps<{
+const { path, comment, rootId } = defineProps<{
+  path: (string | null)[];
   comment: InternalApi['/api/comments/:id/comments']['get'][number];
-  depth?: number;
   rootId: string;
 }>();
 const isReplyDialogOpen = ref(false);
@@ -52,8 +48,7 @@ const form = useForm({
 const queryClient = useQueryClient();
 const { mutate } = useMutation({
   mutationFn: createComment,
-  onSuccess: (response) => {
-    console.log(response);
+  onSuccess: () => {
     queryClient.invalidateQueries({
       queryKey: ['comments', rootId, 'comments'],
     });
@@ -75,7 +70,7 @@ const handleSubmit = form.handleSubmit((values) =>
   <div
     :class="
       cn(
-        // comment.depth % 2 ? 'bg-red-40' : 'bg-background',
+        comment.id === rootId && 'border-l-2 border-blue-600 pl-6',
         'bg-opacity-20 flex flex-col gap-4',
       )
     "
@@ -113,7 +108,7 @@ const handleSubmit = form.handleSubmit((values) =>
               variant="ghost"
               @click="() => (isReplyDialogOpen = true)"
             >
-              reply
+              {{ $t('resource.comment.reply.action') }}
             </Button>
           </DialogTrigger>
           <DialogContent>
@@ -137,13 +132,13 @@ const handleSubmit = form.handleSubmit((values) =>
     </div>
     <ol
       v-if="comment.comments.length"
-      class="flex flex-col gap-6 pl-6 border-l-neutral-500 border-l-4"
+      class="flex flex-col gap-6 pl-6 border-l-neutral-500 border-l-2"
     >
       <li
         v-for="reply in comment.comments"
         :key="reply.id as unknown as string"
       >
-        <Comment :comment="reply" :root-id :depth="depth + 1" />
+        <Comment :path="[...path, comment.id]" :comment="reply" :root-id />
       </li>
     </ol>
   </div>

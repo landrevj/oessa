@@ -73,7 +73,6 @@ const { mutate } = useMutation({
     });
     form.resetForm();
     toast.success(t('resource.comment.reply.success'));
-    // isReplyDialogOpen.value = false;
   },
   onError: ({ message }) => {
     toast.error(t('resource.comment.reply.error'), { description: message });
@@ -87,13 +86,22 @@ const handleSubmit = form.handleSubmit(
 
 <template>
   <div v-if="!comment">loading</div>
-  <div v-else class="container gap-4 flex flex-col">
-    <!-- <Comment :comment /> -->
+  <div v-else class="container mx-auto gap-4 flex flex-col">
+    <Comment
+      :comment="{
+        ...comment,
+        comments: [],
+        user: comment.user || { name: '', id: '', image: '' },
+      }"
+      :path="[]"
+      :root-id="comment.id"
+    />
 
     <div class="flex flex-col gap-4">
       <Comment
         v-for="reply in commentComments"
         :key="reply.id"
+        :path="[comment.id]"
         :comment="reply"
         :root-id="comment.id"
       />

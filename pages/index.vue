@@ -83,7 +83,7 @@ const handleSubmit = createGroupForm.handleSubmit((values) =>
       {{ $t('auth.signUp') }}
     </Button>
   </div>
-  <div v-else class="container gap-4 flex flex-col">
+  <div v-else class="container mx-auto gap-4 flex flex-col">
     <Card class="flex flex-row items-center gap-2 p-2">
       <UserAvatar
         :name="session.data.user.name"

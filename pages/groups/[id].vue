@@ -81,7 +81,7 @@ const handleSubmit = form.handleSubmit(
 
 <template>
   <div v-if="!group">loading</div>
-  <div v-else class="container gap-4 flex flex-col">
+  <div v-else class="container mx-auto gap-4 flex flex-col">
     <h1>{{ group.name }}</h1>
     <div>
       <ul class="flex gap-1">
