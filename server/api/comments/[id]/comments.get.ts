@@ -1,6 +1,8 @@
 import type { Comment, User } from '~/db/types';
 import { type Selectable, sql } from 'kysely';
 import { defineEventHandler, getValidatedRouterParams } from 'h3';
+import { auth } from '~/lib/auth';
+import { commentReactions } from '~/utils/db/comments/comments';
 import { db } from '~/db/db';
 import { threadsGetParamsSchema } from '~/utils/api/commentables/[id]/threads.get';
 
@@ -8,11 +10,17 @@ import { threadsGetParamsSchema } from '~/utils/api/commentables/[id]/threads.ge
 
 type CommentWithComments = Omit<Selectable<Comment>, 'user_id'> & {
   comments: CommentWithComments[];
+  reactions: { reaction: string; count: number; didUserReact?: boolean }[];
   user: Pick<Selectable<User>, 'id' | 'name' | 'image'>;
 };
 
+const MAX_DIRECT_REPLIES = 10;
+const MAX_REPLY_DEPTH = 10;
+
 export default defineEventHandler({
   handler: async (event) => {
+    const session = await auth.api.getSession({ headers: event.headers });
+
     const { id } = await getValidatedRouterParams(
       event,
       threadsGetParamsSchema.parse,
@@ -21,28 +29,37 @@ export default defineEventHandler({
     const { jsonbAgg: comments } = await db
       .withRecursive('node', (qb) =>
         qb
-          .selectFrom('comment')
-          .selectAll()
-          .select(({ eb }) => [
+          .selectFrom(({ eb }) =>
             eb
-              .selectFrom('user')
-              .select(
-                sql<
-                  CommentWithComments['user']
-                >`to_jsonb("user".*) - ARRAY['email', 'created_at', 'updated_at', 'email_verified']`.as(
-                  'user_json',
+              .selectFrom('comment')
+              .selectAll()
+              .select(({ eb, ref }) => [
+                eb
+                  .selectFrom('user')
+                  .select(
+                    sql<
+                      CommentWithComments['user']
+                    >`to_jsonb("user".*) - ARRAY['email', 'created_at', 'updated_at', 'email_verified']`.as(
+                      'user_json',
+                    ),
+                  )
+                  .whereRef('user.id', '=', 'comment.userId')
+                  .as('user'),
+                eb.lit<number>(0).as('depth'),
+                commentReactions(eb, ref('comment.id'), session).as(
+                  'reactions',
                 ),
-              )
-              .whereRef('user.id', '=', 'comment.userId')
-              .as('user'),
-            eb.lit<number>(0).as('depth'),
-          ])
-          .where('comment.id', '=', id)
+              ])
+              .where('comment.parentId', '=', id)
+              .limit(sql.lit(MAX_DIRECT_REPLIES))
+              .as('directReplies'),
+          )
+          .selectAll()
           .union((eb) =>
             eb
               .selectFrom('comment as child')
               .selectAll('child')
-              .select(({ eb }) => [
+              .select(({ eb, ref }) => [
                 eb
                   .selectFrom('user')
                   .select(
@@ -55,9 +72,10 @@ export default defineEventHandler({
                   .whereRef('user.id', '=', 'child.userId')
                   .as('user'),
                 sql<number>`"parent"."depth" + 1`.as('depth'),
+                commentReactions(eb, ref('child.id'), session).as('reactions'),
               ])
-              // .where(sql<number>`"parent"."depth" + 1`, '<', 4)
-              .innerJoin('node as parent', 'parent.id', 'child.parent_id'),
+              .innerJoin('node as parent', 'parent.id', 'child.parent_id')
+              .where(sql<number>`depth + 1`, '<', sql.lit(MAX_REPLY_DEPTH)),
           ),
       )
       .withRecursive('tree', (qb) => {
@@ -130,7 +148,7 @@ export default defineEventHandler({
           'jsonbAgg',
         ),
       )
-      .where('final_tree.depth', '=', sql.lit(1))
+      .where('final_tree.depth', '=', sql.lit(0))
       .executeTakeFirstOrThrow();
     return comments;
   },

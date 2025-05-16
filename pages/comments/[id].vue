@@ -40,7 +40,7 @@ const {
 } = useRoute();
 
 const { data: comment, suspense } = useQuery({
-  queryKey: ['groups', id, 'comments'],
+  queryKey: ['comments', id],
   queryFn: () => readComment({ id: Array.isArray(id) ? id[0] : id }),
 });
 
@@ -86,7 +86,7 @@ const handleSubmit = form.handleSubmit(
 
 <template>
   <div v-if="!comment">loading</div>
-  <div v-else class="container mx-auto gap-4 flex flex-col">
+  <div v-else class="container mx-auto flex flex-col gap-4">
     <Comment
       :comment="{
         ...comment,

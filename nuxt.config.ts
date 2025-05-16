@@ -11,7 +11,9 @@ export default defineNuxtConfig({
   components: {
     dirs: [],
   },
-  devtools: { enabled: true },
+  devtools: {
+    enabled: true,
+  },
   imports: {
     autoImport: false,
   },
@@ -34,6 +36,7 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@nuxtjs/i18n',
     // '@nuxtjs/tailwindcss',
+    '@peterbud/nuxt-query',
     '@vee-validate/nuxt',
     'nuxt-security',
     // 'shadcn-nuxt',
@@ -58,6 +61,10 @@ export default defineNuxtConfig({
     experimental: {
       typedOptionsAndMessages: 'default',
     },
+  },
+  nuxtQuery: {
+    autoImports: [],
+    devtools: true,
   },
   security: {
     headers: {

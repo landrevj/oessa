@@ -44,7 +44,7 @@ export async function up(db: Kysely<any>): Promise<void> {
     .createTable('reaction')
     .$call(withTimestamps)
     .addColumn('comment_id', 'uuid', (col) =>
-      col.notNull().references('comment.id'),
+      col.notNull().references('comment.id').onDelete('cascade'),
     )
     .addColumn('user_id', 'uuid', (col) => col.notNull().references('user.id'))
     .addColumn('reaction', 'text', (col) => col.notNull())

@@ -1,4 +1,9 @@
-import { CamelCasePlugin, Kysely, PostgresDialect } from 'kysely';
+import {
+  CamelCasePlugin,
+  Kysely,
+  PostgresDialect,
+  expressionBuilder as kyselyExpressionBuilder,
+} from 'kysely';
 import type { DB } from './types.d.ts';
 import pg from 'pg';
 
@@ -11,3 +16,5 @@ export const db = new Kysely<DB>({
   }),
   plugins: [new CamelCasePlugin()],
 });
+
+export const expressionBuilder = kyselyExpressionBuilder<DB>;

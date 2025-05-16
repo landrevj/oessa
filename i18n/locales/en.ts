@@ -91,6 +91,19 @@ export default {
         error: 'Failed to update group.',
       },
     },
+    reaction: {
+      field: {
+        reaction: {
+          label: 'Reaction',
+        },
+      },
+      create: {
+        error: 'Failed to add reaction.',
+      },
+      delete: {
+        error: 'Failed to delete reaction.',
+      },
+    },
     thread: {
       create: {
         formTitle: 'Create a thread',

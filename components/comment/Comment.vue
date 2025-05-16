@@ -19,6 +19,8 @@ import {
 import { Button } from '~/shadcn/components/button';
 import CommentFormInputs from './CommentFormInputs.vue';
 import DialogFooter from '~/shadcn/components/dialog/DialogFooter.vue';
+import ReactionChips from '../reaction/ReactionChips.vue';
+import ReactionPalette from '../reaction/ReactionPalette.vue';
 import UserAvatar from '../user/UserAvatar.vue';
 
 // icons
@@ -76,7 +78,7 @@ const handleSubmit = form.handleSubmit((values) =>
     "
   >
     <div class="flex flex-col gap-2">
-      <div class="flex gap-2 items-center">
+      <div class="flex items-center gap-2">
         <UserAvatar :name="comment.user.name" :image="comment.user.image" />
         <span>{{ comment.user.name }}</span>
         <span
@@ -96,15 +98,22 @@ const handleSubmit = form.handleSubmit((values) =>
       </div>
       <p>{{ comment.message }}</p>
       <div
-        class="flex flex-row text-opacity-50 text-black dark:text-white dark:text-opacity-50"
+        class="text-opacity-50 dark:text-opacity-50 flex flex-row gap-1 text-black dark:text-white"
       >
-        <Button class="text-current/50" variant="ghost" size="icon">
-          <IcRoundAddReaction />
-        </Button>
+        <ReactionChips
+          :comment-id="comment.id"
+          :reactions="comment.reactions"
+          class="mr-2"
+        />
+        <ReactionPalette :comment-id="comment.id">
+          <Button class="text-current/50" variant="ghost" size="icon">
+            <IcRoundAddReaction />
+          </Button>
+        </ReactionPalette>
         <Dialog v-model:open="isReplyDialogOpen">
           <DialogTrigger as-child>
             <Button
-              class="text-current/50"
+              class="px-3 text-current/50"
               variant="ghost"
               @click="() => (isReplyDialogOpen = true)"
             >
@@ -132,7 +141,7 @@ const handleSubmit = form.handleSubmit((values) =>
     </div>
     <ol
       v-if="comment.comments.length"
-      class="flex flex-col gap-6 pl-6 border-l-neutral-500 border-l-2"
+      class="flex flex-col gap-6 border-l-2 border-l-neutral-500 pl-6"
     >
       <li
         v-for="reply in comment.comments"
