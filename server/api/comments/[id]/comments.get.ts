@@ -15,7 +15,7 @@ type CommentWithComments = Omit<Selectable<Comment>, 'user_id'> & {
 };
 
 const MAX_DIRECT_REPLIES = 10;
-const MAX_REPLY_DEPTH = 10;
+const MAX_REPLY_DEPTH = 2;
 
 export default defineEventHandler({
   handler: async (event) => {
@@ -29,13 +29,11 @@ export default defineEventHandler({
     const { jsonbAgg: comments } = await db
       .withRecursive('node', (qb) =>
         qb
-          .selectFrom(({ eb }) =>
-            eb
-              .selectFrom('comment')
+          .selectFrom(({ eb, selectFrom }) =>
+            selectFrom('treeComment as parent')
               .selectAll()
-              .select(({ eb, ref }) => [
-                eb
-                  .selectFrom('user')
+              .select(({ lit, ref, selectFrom }) => [
+                selectFrom('user')
                   .select(
                     sql<
                       CommentWithComments['user']
@@ -43,25 +41,31 @@ export default defineEventHandler({
                       'user_json',
                     ),
                   )
-                  .whereRef('user.id', '=', 'comment.userId')
+                  .whereRef('user.id', '=', 'parent.userId')
                   .as('user'),
-                eb.lit<number>(0).as('depth'),
-                commentReactions(eb, ref('comment.id'), session).as(
-                  'reactions',
-                ),
+                lit<number>(0).as('depth'),
+                selectFrom('comment as c1')
+                  .select(({ fn }) => fn.countAll().as('count'))
+                  .where(({ eb, selectFrom }) =>
+                    eb(
+                      'c1.path',
+                      '~',
+                      sql<string>`(${selectFrom('comment as c2').select('c2.path').whereRef('c2.id', '=', 'parent.id')}::text || '.*{1}')::lquery`,
+                    ),
+                  )
+                  .as('replyCount'),
+                commentReactions(eb, ref('parent.id'), session).as('reactions'),
               ])
-              .where('comment.parentId', '=', id)
+              .where('parent.parentId', '=', id)
               .limit(sql.lit(MAX_DIRECT_REPLIES))
               .as('directReplies'),
           )
           .selectAll()
-          .union((eb) =>
-            eb
-              .selectFrom('comment as child')
+          .union(({ selectFrom }) =>
+            selectFrom('treeComment as child')
               .selectAll('child')
-              .select(({ eb, ref }) => [
-                eb
-                  .selectFrom('user')
+              .select(({ eb, ref, selectFrom }) => [
+                selectFrom('user')
                   .select(
                     sql<
                       CommentWithComments['user']
@@ -72,6 +76,16 @@ export default defineEventHandler({
                   .whereRef('user.id', '=', 'child.userId')
                   .as('user'),
                 sql<number>`"parent"."depth" + 1`.as('depth'),
+                selectFrom('comment')
+                  .select(({ fn }) => fn.countAll().as('count'))
+                  .where(({ eb, selectFrom }) =>
+                    eb(
+                      'comment.path',
+                      '~',
+                      sql<string>`(${selectFrom('comment').select('comment.path').whereRef('comment.id', '=', 'child.id')}::text || '.*{1}')::lquery`,
+                    ),
+                  )
+                  .as('replyCount'),
                 commentReactions(eb, ref('child.id'), session).as('reactions'),
               ])
               .innerJoin('node as parent', 'parent.id', 'child.parent_id')

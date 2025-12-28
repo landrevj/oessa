@@ -25,6 +25,11 @@ export default {
     or: 'Or',
     save: 'Save',
   },
+  feature: {
+    comment: {
+      moreReplies: '1 more reply | {replyCount} more replies',
+    },
+  },
   layouts: {
     title: 'something',
   },

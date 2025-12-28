@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, useI18n } from '#imports';
+import { computed, ref, useI18n } from '#imports';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { DateTime } from 'luxon';
 import type { InternalApi } from 'nitropack';
@@ -42,6 +42,9 @@ const { path, comment, rootId } = defineProps<{
   rootId: string;
 }>();
 const isReplyDialogOpen = ref(false);
+const unloadedReplyCount = computed(
+  () => comment.replyCount - comment.comments.length,
+);
 
 const form = useForm({
   validationSchema: toTypedSchema(commentPostBodySchema),
@@ -73,7 +76,7 @@ const handleSubmit = form.handleSubmit((values) =>
     :class="
       cn(
         comment.id === rootId && 'border-l-2 border-blue-600 pl-6',
-        'bg-opacity-20 flex flex-col gap-4',
+        'bg-opacity-20 flex flex-col items-start gap-4',
       )
     "
   >
@@ -150,5 +153,12 @@ const handleSubmit = form.handleSubmit((values) =>
         <Comment :path="[...path, comment.id]" :comment="reply" :root-id />
       </li>
     </ol>
+    <Button v-if="!!unloadedReplyCount" variant="outline">
+      {{
+        $t('feature.comment.moreReplies', unloadedReplyCount, {
+          named: { replyCount: unloadedReplyCount },
+        })
+      }}
+    </Button>
   </div>
 </template>

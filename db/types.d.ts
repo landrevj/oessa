@@ -33,6 +33,7 @@ export interface Comment {
   id: Generated<string>;
   message: string;
   parentId: string | null;
+  path: string | null;
   title: string | null;
   updatedAt: Generated<Timestamp>;
   userId: string;
@@ -85,6 +86,16 @@ export interface Thread {
   updatedAt: Generated<Timestamp>;
 }
 
+export interface TreeComment {
+  createdAt: Timestamp | null;
+  id: string | null;
+  message: string | null;
+  parentId: string | null;
+  title: string | null;
+  updatedAt: Timestamp | null;
+  userId: string | null;
+}
+
 export interface User {
   createdAt: Timestamp;
   email: string;
@@ -113,6 +124,7 @@ export interface DB {
   reaction: Reaction;
   session: Session;
   thread: Thread;
+  treeComment: TreeComment;
   user: User;
   verification: Verification;
 }

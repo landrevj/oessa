@@ -15,7 +15,49 @@ export async function up(db: Kysely<any>): Promise<void> {
     .addColumn('user_id', 'uuid', (col) => col.notNull().references('user.id'))
     .addColumn('title', 'text')
     .addColumn('message', 'text', (col) => col.notNull())
+    .addColumn('path', sql`ltree`)
     .execute();
+
+  await sql`CREATE INDEX comment_path_gist_index ON comment USING gist (path gist_ltree_ops(siglen=100))`.execute(
+    db,
+  );
+
+  await sql`CREATE VIEW tree_comment AS
+    SELECT
+      id,
+      created_at,
+      updated_at,
+      parent_id,
+      user_id,
+      title,
+      message
+    FROM comment;
+  `.execute(db);
+
+  await sql`
+    CREATE OR REPLACE FUNCTION update_comment_path()
+    RETURNS TRIGGER AS $$
+      BEGIN
+      NEW.path = COALESCE(
+        (SELECT path FROM comment WHERE id = NEW.parent_id),
+        text2ltree('')
+      ) || text2ltree(REPLACE(NEW.id::text, '-', '_'));
+      RETURN NEW;
+      END;
+    $$ language 'plpgsql';
+  `.execute(db);
+
+  await sql`
+    CREATE TRIGGER insert_comment_path_trigger
+    BEFORE INSERT ON comment
+    FOR EACH ROW EXECUTE FUNCTION update_comment_path();
+  `.execute(db);
+
+  await sql`
+    CREATE TRIGGER update_comment_path_trigger
+    BEFORE UPDATE OF parent_id ON comment
+    FOR EACH ROW EXECUTE FUNCTION update_comment_path();
+  `.execute(db);
 
   await db.schema
     .createTable('thread')
@@ -66,5 +108,8 @@ export async function down(db: Kysely<any>): Promise<void> {
   await dropUpdatedAtTrigger(db, 'comment');
   await db.schema.dropTable('reaction').execute();
   await db.schema.dropTable('thread').execute();
+  await sql`DROP TRIGGER update_comment_path_trigger ON comment;`.execute(db);
+  await sql`DROP TRIGGER insert_comment_path_trigger ON comment;`.execute(db);
+  await sql`DROP FUNCTION update_comment_path;`.execute(db);
   await db.schema.dropTable('comment').execute();
 }
