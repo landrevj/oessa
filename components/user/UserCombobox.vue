@@ -11,14 +11,13 @@ import {
   ComboboxInput,
   ComboboxItem,
   ComboboxList,
-} from '~/components/ui/combobox';
+} from '~/shadcn/components/combobox';
 import {
   TagsInput,
   TagsInputInput,
   TagsInputItem,
   TagsInputItemDelete,
-} from '~/components/ui/tags-input';
-
+} from '~/shadcn/components/tags-input';
 // icons
 
 // utils
@@ -78,21 +77,21 @@ const filteredUsers = computed(() => {
           </TagsInputItem>
         </div>
 
-        <ComboboxInput
+        <!-- <ComboboxInput
           v-model="searchTerm"
           as-child
           :display-value="(user) => user.name"
-        >
-          <TagsInputInput
-            class="min-w-[200px] w-full p-0 border-none focus-visible:ring-0 h-auto"
-            :placeholder="$t('resources.groups.fields.users.placeholder')"
-            @keydown.enter.prevent
-            @click="isOpen = true"
-          />
-        </ComboboxInput>
+        > -->
+        <TagsInputInput
+          class="min-w-[200px] w-full p-0 border-none focus-visible:ring-0 h-auto"
+          :placeholder="$t('resource.group.field.users.placeholder')"
+          @keydown.enter.prevent
+          @click="isOpen = true"
+        />
+        <!-- </ComboboxInput> -->
       </TagsInput>
 
-      <ComboboxList class="w-[--reka-popper-anchor-width]">
+      <ComboboxList class="w-[var(--reka-popper-anchor-width)]">
         <ComboboxEmpty />
         <ComboboxGroup>
           <ComboboxItem

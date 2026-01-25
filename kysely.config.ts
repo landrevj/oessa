@@ -1,5 +1,5 @@
-import { defineConfig } from 'kysely-ctl';
 import { db } from './db/db';
+import { defineConfig } from 'kysely-ctl';
 
 export default defineConfig({
   kysely: db,

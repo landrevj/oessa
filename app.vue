@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { NuxtLayout, NuxtPage, NuxtRouteAnnouncer } from '#components';
-import { Toaster } from './components/ui/sonner';
+import { Toaster } from '~/shadcn/components/sonner';
 </script>
 
 <template>
@@ -12,11 +12,7 @@ import { Toaster } from './components/ui/sonner';
 </template>
 
 <style>
-* {
-  @apply border-border;
-}
 body {
-  @apply min-h-screen bg-background text-foreground;
   font-family:
     'Public Sans', 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji',
     'Segoe UI Symbol', 'Noto Color Emoji', sans-serif;

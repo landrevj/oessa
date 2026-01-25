@@ -28,9 +28,24 @@ export interface Account {
   userId: string;
 }
 
-export interface Group {
+export interface Comment {
   createdAt: Generated<Timestamp>;
   id: Generated<string>;
+  message: string;
+  parentId: string | null;
+  path: string | null;
+  title: string | null;
+  updatedAt: Generated<Timestamp>;
+  userId: string;
+}
+
+export interface Commentable {
+  id: Generated<string>;
+}
+
+export interface Group {
+  createdAt: Generated<Timestamp>;
+  id: string;
   image: string | null;
   name: string;
   updatedAt: Generated<Timestamp>;
@@ -39,6 +54,14 @@ export interface Group {
 export interface GroupUser {
   createdAt: Generated<Timestamp>;
   groupId: string;
+  updatedAt: Generated<Timestamp>;
+  userId: string;
+}
+
+export interface Reaction {
+  commentId: string;
+  createdAt: Generated<Timestamp>;
+  reaction: string;
   updatedAt: Generated<Timestamp>;
   userId: string;
 }
@@ -52,6 +75,25 @@ export interface Session {
   updatedAt: Timestamp;
   userAgent: string | null;
   userId: string;
+}
+
+export interface Thread {
+  commentableId: string;
+  commentId: string;
+  createdAt: Generated<Timestamp>;
+  defaultView: Generated<string>;
+  note: string | null;
+  updatedAt: Generated<Timestamp>;
+}
+
+export interface TreeComment {
+  createdAt: Timestamp | null;
+  id: string | null;
+  message: string | null;
+  parentId: string | null;
+  title: string | null;
+  updatedAt: Timestamp | null;
+  userId: string | null;
 }
 
 export interface User {
@@ -75,9 +117,14 @@ export interface Verification {
 
 export interface DB {
   account: Account;
+  comment: Comment;
+  commentable: Commentable;
   group: Group;
   groupUser: GroupUser;
+  reaction: Reaction;
   session: Session;
+  thread: Thread;
+  treeComment: TreeComment;
   user: User;
   verification: Verification;
 }

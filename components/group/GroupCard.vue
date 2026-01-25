@@ -14,8 +14,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '~/components/ui/card';
-import { Button } from '~/components/ui/button';
+} from '~/shadcn/components/card';
+import { Button } from '~/shadcn/components/button';
 import GroupFormInputs from './GroupFormInputs.vue';
 import UserAvatar from '~/components/user/UserAvatar.vue';
 
@@ -49,7 +49,7 @@ const { mutate } = useMutation({
     isEditing.value = false;
   },
   onError: ({ message }) => {
-    toast.error(t('resources.groups.update.error'), { description: message });
+    toast.error(t('resource.group.update.error'), { description: message });
   },
 });
 
@@ -73,7 +73,7 @@ const { mutate: deleteGroupMutation } = useMutation({
     queryClient.invalidateQueries({ queryKey: ['groups'] });
   },
   onError: ({ message }) => {
-    toast.error(t('resources.groups.delete.error'), { description: message });
+    toast.error(t('resource.group.delete.error'), { description: message });
   },
 });
 </script>
@@ -81,7 +81,9 @@ const { mutate: deleteGroupMutation } = useMutation({
 <template>
   <Card v-if="!isEditing">
     <CardHeader>
-      <CardTitle>{{ group.name }}</CardTitle>
+      <CardTitle>
+        <a :href="`/groups/${group.id}`">{{ group.name }}</a>
+      </CardTitle>
     </CardHeader>
     <CardContent>
       <ul>
@@ -93,8 +95,24 @@ const { mutate: deleteGroupMutation } = useMutation({
           </ul>
         </li>
         <li>{{ group.id }}</li>
-        <li>{{ DateTime.fromISO(group.createdAt).toRelative() }}</li>
-        <li>{{ DateTime.fromISO(group.updatedAt).toRelative() }}</li>
+        <li
+          :title="
+            DateTime.fromISO(group.createdAt)
+              .toLocal()
+              .toLocaleString(DateTime.DATETIME_FULL)
+          "
+        >
+          {{ DateTime.fromISO(group.createdAt).toRelative() }}
+        </li>
+        <li
+          :title="
+            DateTime.fromISO(group.updatedAt)
+              .toLocal()
+              .toLocaleString(DateTime.DATETIME_FULL)
+          "
+        >
+          {{ DateTime.fromISO(group.updatedAt).toRelative() }}
+        </li>
         <li>{{ group.image }}</li>
       </ul>
     </CardContent>
@@ -112,11 +130,11 @@ const { mutate: deleteGroupMutation } = useMutation({
     </CardFooter>
   </Card>
   <Card v-else>
-    <form class="contents" @submit.prevent="handleSubmit">
+    <form @submit.prevent="handleSubmit">
       <CardHeader>
-        <CardTitle>{{ $t('resources.groups.update.formTitle') }}</CardTitle>
+        <CardTitle>{{ $t('resource.group.update.formTitle') }}</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent class="flex flex-col gap-4">
         <GroupFormInputs />
       </CardContent>
       <CardFooter>

@@ -1,6 +1,10 @@
 <script setup lang="ts">
 // components
-import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '~/shadcn/components/avatar';
 
 const { image, name } = defineProps<{
   image: string | null | undefined;

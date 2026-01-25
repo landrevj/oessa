@@ -1,3 +1,5 @@
+import tailwindcss from '@tailwindcss/vite';
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
@@ -9,7 +11,9 @@ export default defineNuxtConfig({
   components: {
     dirs: [],
   },
-  devtools: { enabled: true },
+  devtools: {
+    enabled: true,
+  },
   imports: {
     autoImport: false,
   },
@@ -22,12 +26,17 @@ export default defineNuxtConfig({
     strict: true,
     typeCheck: true,
   },
+  css: ['~/assets/css/tailwind.css'],
+  vite: {
+    plugins: [tailwindcss()],
+  },
   modules: [
     '@nuxt/eslint',
     '@nuxt/fonts',
     '@nuxtjs/color-mode',
     '@nuxtjs/i18n',
-    '@nuxtjs/tailwindcss',
+    // '@nuxtjs/tailwindcss',
+    '@peterbud/nuxt-query',
     '@vee-validate/nuxt',
     'nuxt-security',
     // 'shadcn-nuxt',
@@ -52,6 +61,10 @@ export default defineNuxtConfig({
     experimental: {
       typedOptionsAndMessages: 'default',
     },
+  },
+  nuxtQuery: {
+    autoImports: [],
+    devtools: true,
   },
   security: {
     headers: {

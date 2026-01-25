@@ -6,18 +6,23 @@ import { useI18n } from '#imports';
 import { z } from 'zod';
 
 // components
-import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '~/shadcn/components/card';
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from '~/components/ui/form';
-import { Button } from '~/components/ui/button';
+} from '~/shadcn/components/form';
+import { Button } from '~/shadcn/components/button';
 import { CheckboxLabeled } from '~/components/ui/checkbox';
-import { Input } from '~/components/ui/input';
-import { Separator } from '~/components/ui/separator';
+import { Input } from '~/shadcn/components/input';
+import { Separator } from '~/shadcn/components/separator';
 
 // utils
 import { authClient } from '~/lib/authClient';
@@ -69,7 +74,7 @@ const onSubmit = form.handleSubmit(({ email, password, rememberMe }) =>
               <FormItem>
                 <FormLabel>{{ $t('common.email') }}</FormLabel>
                 <FormControl>
-                  <Input id="email" v-bind="componentField" />
+                  <Input v-bind="componentField" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -78,11 +83,7 @@ const onSubmit = form.handleSubmit(({ email, password, rememberMe }) =>
               <FormItem>
                 <FormLabel>{{ $t('auth.password') }}</FormLabel>
                 <FormControl>
-                  <Input
-                    id="password"
-                    type="password"
-                    v-bind="componentField"
-                  />
+                  <Input type="password" v-bind="componentField" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -91,7 +92,6 @@ const onSubmit = form.handleSubmit(({ email, password, rememberMe }) =>
               <FormItem>
                 <FormControl>
                   <CheckboxLabeled
-                    id="rememberMe"
                     :checked="value"
                     @update:checked="handleChange"
                   >

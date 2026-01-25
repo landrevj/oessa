@@ -1,9 +1,13 @@
 import { db } from '~/db/db';
 import { defineEventHandler } from 'h3';
-import { selectAllGroupsWithUsers } from '~/utils/db/group';
+import { groupUsers } from '~/utils/db/group';
 
 export default defineEventHandler({
   handler: () => {
-    return selectAllGroupsWithUsers(db);
+    return db
+      .selectFrom('group')
+      .selectAll()
+      .select(({ ref }) => groupUsers(db, ref('group.id')).as('users'))
+      .execute();
   },
 });

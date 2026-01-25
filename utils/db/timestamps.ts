@@ -1,5 +1,5 @@
-import { sql } from 'kysely';
 import type { CreateTableBuilder, Kysely } from 'kysely';
+import { sql } from 'kysely';
 
 export const withTimestamps = <T extends string, U extends string>(
   qb: CreateTableBuilder<T, U>,

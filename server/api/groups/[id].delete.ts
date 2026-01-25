@@ -4,7 +4,6 @@ import {
   setResponseStatus,
 } from 'h3';
 import { db } from '~/db/db';
-import { deleteGroup } from '~/utils/db/group';
 import { groupsDeleteParamsSchema } from '~/utils/api/groups/[id].delete';
 
 const handler = defineEventHandler({
@@ -13,8 +12,12 @@ const handler = defineEventHandler({
       event,
       groupsDeleteParamsSchema.parse,
     );
-    await db.deleteFrom('groupUser').where('groupId', '=', id).execute();
-    await deleteGroup(db, id);
+
+    await db.transaction().execute(async (trx) => {
+      await trx.deleteFrom('groupUser').where('groupId', '=', id).execute();
+      await trx.deleteFrom('group').where('id', '=', id).execute();
+      await trx.deleteFrom('commentable').where('id', '=', id).execute();
+    });
     setResponseStatus(event, 204);
   },
 });
